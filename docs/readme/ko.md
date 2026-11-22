@@ -6,8 +6,8 @@ Windows 7의 그림판에서 영감을 얻은 macOS용 간단한 이미지 편�
 
 ## macOS용 다운로드
 
-- **[Apple Silicon(M 시리즈)용 다운로드](https://github.com/leoars/my-paint/releases/download/0.1.0/My-Paint-0.1.0-arm64.pkg)**
-- **[Intel용 다운로드](https://github.com/leoars/my-paint/releases/download/0.1.0/My-Paint-0.1.0-x86_64.pkg)**
+- **[Apple Silicon(M 시리즈)용 다운로드](https://github.com/leoars/my-paint/releases/download/0.1.1/My-Paint-0.1.1-arm64.pkg)**
+- **[Intel용 다운로드](https://github.com/leoars/my-paint/releases/download/0.1.1/My-Paint-0.1.1-x86_64.pkg)**
 
 macOS 12 이상이 필요합니다. [최신 릴리스 보기](https://github.com/leoars/my-paint/releases/latest)
 

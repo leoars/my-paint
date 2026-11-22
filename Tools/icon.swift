@@ -1,8 +1,10 @@
 // Draws the original My Paint icon in code and writes the .icns family.
-// Same visual family as My Notepad: one glossy object in three-quarter view, a thick blue frame,
-// a cream surface with "My" in navy and silver metal details, on a transparent background.
+// A painter's palette in the My Suite style: one glossy object in three-quarter view with a
+// thick blue rim, a cream surface with "My" in navy, dabs of paint and a blue brush with a
+// silver ferrule, on a transparent background. The artwork fills the canvas edge to edge.
 // Usage: swift Tools/icon.swift Resources/MyPaint.icns [preview.png]
 import AppKit
+import CoreText
 
 let arguments = CommandLine.arguments
 guard arguments.count >= 2 else {
@@ -10,256 +12,256 @@ guard arguments.count >= 2 else {
     exit(2)
 }
 
-func rgb(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, _ a: CGFloat = 1) -> CGColor {
-    CGColor(srgbRed: r, green: g, blue: b, alpha: a)
+func rgb(_ hex: UInt32, _ alpha: CGFloat = 1) -> CGColor {
+    CGColor(srgbRed: CGFloat((hex >> 16) & 255) / 255, green: CGFloat((hex >> 8) & 255) / 255,
+            blue: CGFloat(hex & 255) / 255, alpha: alpha)
 }
 
-let navy = rgb(0.04, 0.10, 0.33)
-let blueLight = rgb(0.24, 0.52, 0.98)
-let blue = rgb(0.11, 0.38, 0.90)
-let blueDark = rgb(0.05, 0.22, 0.66)
-let blueSide = rgb(0.04, 0.17, 0.52)
-let creamLight = rgb(0.995, 0.985, 0.955)
-let cream = rgb(0.96, 0.93, 0.85)
-let creamDark = rgb(0.88, 0.84, 0.74)
-let stroke = [rgb(0.90, 0.16, 0.20), rgb(1.00, 0.70, 0.08), rgb(0.20, 0.70, 0.32), rgb(0.13, 0.50, 0.96)]
+let sRGB = CGColorSpace(name: CGColorSpace.sRGB)!
 
-// The canvas board is drawn on a flat face of W × H points, then leaned back in three-quarter
-// view by an affine map, like the notepad's front cover.
-let faceWidth: CGFloat = 690, faceHeight: CGFloat = 690
-let faceMap = CGAffineTransform(a: 0.95, b: 0.10, c: -0.34, d: 0.95, tx: 292, ty: 112)
-/// Where the brush tip touches the end of the paint stroke, on the flat face.
-let strokeEnd = CGPoint(x: faceWidth - 54 - 30, y: 54 + 452)
-
-func gradient(_ colors: [CGColor], _ locations: [CGFloat]? = nil) -> CGGradient {
-    CGGradient(colorsSpace: CGColorSpace(name: CGColorSpace.sRGB), colors: colors as CFArray, locations: locations)!
-}
-
-func rounded(_ rect: CGRect, _ radius: CGFloat) -> CGPath {
-    CGPath(roundedRect: rect, cornerWidth: radius, cornerHeight: radius, transform: nil)
-}
-
-func fill(_ context: CGContext, _ path: CGPath, _ colors: [CGColor], from: CGPoint, to: CGPoint,
-          _ locations: [CGFloat]? = nil) {
+func fill(_ context: CGContext, _ path: CGPath, _ stops: [(UInt32, CGFloat, CGFloat)], from: CGPoint, to: CGPoint) {
     context.saveGState()
-    context.addPath(path)
-    context.clip()
-    context.drawLinearGradient(gradient(colors, locations), start: from, end: to,
-                               options: [.drawsBeforeStartLocation, .drawsAfterEndLocation])
+    context.addPath(path); context.clip()
+    let gradient = CGGradient(colorsSpace: sRGB, colors: stops.map { rgb($0.0, $0.1) } as CFArray, locations: stops.map { $0.2 })!
+    context.drawLinearGradient(gradient, start: from, end: to, options: [.drawsBeforeStartLocation, .drawsAfterEndLocation])
     context.restoreGState()
 }
 
-// MARK: Canvas board
-
-func drawStand(_ context: CGContext) {
-    // The back leg that keeps the board standing, seen behind its right edge.
-    let leg = CGMutablePath()
-    leg.move(to: CGPoint(x: 880, y: 200))
-    leg.addLine(to: CGPoint(x: 950, y: 222))
-    leg.addQuadCurve(to: CGPoint(x: 968, y: 246), control: CGPoint(x: 966, y: 226))
-    leg.addLine(to: CGPoint(x: 1000, y: 820))
-    leg.addQuadCurve(to: CGPoint(x: 980, y: 846), control: CGPoint(x: 1003, y: 842))
-    leg.addLine(to: CGPoint(x: 860, y: 868))
-    leg.closeSubpath()
-    fill(context, leg, [blueDark, blueSide], from: CGPoint(x: 900, y: 0), to: CGPoint(x: 1004, y: 0))
+// Core Graphics shadows ignore the CTM, so they are scaled by hand for each output size.
+var shadowScale: CGFloat = 1
+func shadow(_ context: CGContext, x: CGFloat, y: CGFloat, blur: CGFloat, _ tint: CGColor) {
+    context.setShadow(offset: CGSize(width: x * shadowScale, height: y * shadowScale), blur: blur * shadowScale, color: tint)
 }
 
-func drawBoard(_ context: CGContext, detail: Bool) {
-    let face = CGRect(x: 0, y: 0, width: faceWidth, height: faceHeight)
-    let frame = rounded(face, 62)
+// The palette is drawn on a flat face (800 × 660, y down) and leaned back in three-quarter view,
+// like the My Notepad pad and the My Explorer folder.
+let lean = CGAffineTransform(a: 1, b: 0.10, c: -0.30, d: 1, tx: 0, ty: 0)
+let edgeDepth = 26
 
-    // Depth: the same outline stacked towards the lower right, darker the deeper it goes.
-    let depth = 32
-    for step in stride(from: depth, through: 1, by: -1) {
-        context.saveGState()
-        context.translateBy(x: CGFloat(step) * 0.90, y: CGFloat(step) * 0.42)
-        context.concatenate(faceMap)
-        context.addPath(frame)
-        let shade = 0.80 + 0.20 * CGFloat(depth - step) / CGFloat(depth)
-        context.setFillColor(rgb(0.04 * shade, 0.18 * shade, 0.55 * shade))
-        context.fillPath()
-        context.restoreGState()
-    }
-
-    context.saveGState()
-    context.concatenate(faceMap)
-
-    // Blue plastic frame, lit from the upper left.
-    fill(context, frame, [blueLight, blue, blueDark], from: CGPoint(x: 0, y: 0),
-         to: CGPoint(x: faceWidth * 0.55, y: faceHeight), [0, 0.45, 1])
-    if detail {
-        context.saveGState()
-        context.addPath(rounded(face.insetBy(dx: 7, dy: 7), 56))
-        context.setStrokeColor(rgb(1, 1, 1, 0.30))
-        context.setLineWidth(6)
-        context.strokePath()
-        context.restoreGState()
-    }
-
-    // Cream canvas set into the frame, with a soft inner shadow along its top and left.
-    let surfaceRect = face.insetBy(dx: 54, dy: 54)
-    let surface = rounded(surfaceRect, 30)
-    fill(context, surface, [creamLight, cream, creamDark], from: surfaceRect.origin,
-         to: CGPoint(x: surfaceRect.maxX, y: surfaceRect.maxY), [0, 0.55, 1])
-    if detail {
-        context.saveGState()
-        context.addPath(surface)
-        context.clip()
-        context.setShadow(offset: CGSize(width: 6, height: 8), blur: 18, color: rgb(0.10, 0.12, 0.25, 0.45))
-        context.addRect(surfaceRect.insetBy(dx: -60, dy: -60))
-        context.addPath(surface)
-        context.setFillColor(rgb(0, 0, 0, 1))
-        context.fillPath(using: .evenOdd)
-        context.restoreGState()
-    }
-
-    drawPaintStroke(context, in: surfaceRect, detail: detail)
-    drawLettering(context, in: surfaceRect)
-    context.restoreGState()
+/// The outline of the palette: a rounded, slightly lopsided oval.
+func blob(inset: CGFloat = 0) -> CGPath {
+    let path = CGMutablePath()
+    path.move(to: CGPoint(x: 40, y: 340))
+    path.addCurve(to: CGPoint(x: 390, y: 30), control1: CGPoint(x: 40, y: 150), control2: CGPoint(x: 200, y: 30))
+    path.addCurve(to: CGPoint(x: 770, y: 300), control1: CGPoint(x: 610, y: 30), control2: CGPoint(x: 770, y: 130))
+    path.addCurve(to: CGPoint(x: 440, y: 630), control1: CGPoint(x: 770, y: 500), control2: CGPoint(x: 640, y: 630))
+    path.addCurve(to: CGPoint(x: 40, y: 340), control1: CGPoint(x: 220, y: 630), control2: CGPoint(x: 40, y: 530))
+    path.closeSubpath()
+    guard inset > 0 else { return path }
+    // Shrinks towards the middle of the shape; close enough to an inset for a rounded outline.
+    let centre = CGPoint(x: 405, y: 330)
+    let factor = (365 - inset) / 365
+    var shrink = CGAffineTransform(translationX: centre.x, y: centre.y).scaledBy(x: factor, y: factor)
+        .translatedBy(x: -centre.x, y: -centre.y)
+    return path.copy(using: &shrink) ?? path
 }
 
-/// A wide rainbow brush stroke under the lettering, where the notepad has its ruled lines.
-func drawPaintStroke(_ context: CGContext, in rect: CGRect, detail: Bool) {
-    // One ribbon of four colours: each band is drawn a little wider than its spacing, from the
-    // bottom up, so they touch like a single loaded brush stroke.
-    let band: CGFloat = 27
-    let start = CGPoint(x: rect.minX + 40, y: strokeEnd.y - 30)
-    for (index, color) in stroke.enumerated().reversed() {
-        let offset = CGFloat(index - stroke.count + 1) * band
-        let path = CGMutablePath()
-        path.move(to: CGPoint(x: start.x, y: start.y + offset))
-        path.addCurve(to: CGPoint(x: strokeEnd.x, y: strokeEnd.y + offset),
-                      control1: CGPoint(x: rect.minX + 210, y: start.y + offset - 80),
-                      control2: CGPoint(x: rect.minX + 360, y: strokeEnd.y + offset + 70))
-        context.saveGState()
-        context.addPath(path)
-        context.setLineWidth(band + 5)
-        context.setLineCap(.round)
-        context.setStrokeColor(color)
-        context.strokePath()
-        if detail {
-            context.translateBy(x: 0, y: -7)
-            context.addPath(path)
-            context.setLineWidth(3)
-            context.setStrokeColor(rgb(1, 1, 1, 0.28))
-            context.strokePath()
+let thumbHole = CGRect(x: 548, y: 418, width: 118, height: 96)
+
+func lettering(_ text: String, size: CGFloat, centre: CGFloat, baseline: CGFloat) -> CGPath {
+    let font = NSFont.systemFont(ofSize: size, weight: .black)
+    let line = CTLineCreateWithAttributedString(NSAttributedString(string: text, attributes: [.font: font, .kern: -size * 0.02]))
+    let path = CGMutablePath()
+    for run in CTLineGetGlyphRuns(line) as! [CTRun] {
+        let count = CTRunGetGlyphCount(run)
+        var glyphs = [CGGlyph](repeating: 0, count: count), positions = [CGPoint](repeating: .zero, count: count)
+        CTRunGetGlyphs(run, CFRange(), &glyphs); CTRunGetPositions(run, CFRange(), &positions)
+        let runFont = (CTRunGetAttributes(run) as NSDictionary)[kCTFontAttributeName as String] as! CTFont
+        for index in 0..<count {
+            // Glyph outlines are y-up; flip them into the y-down face.
+            var flip = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: positions[index].x, ty: baseline)
+            if let glyph = CTFontCreatePathForGlyph(runFont, glyphs[index], &flip) { path.addPath(glyph) }
         }
-        context.restoreGState()
+    }
+    var move = CGAffineTransform(translationX: centre - path.boundingBoxOfPath.midX, y: 0)
+    return path.copy(using: &move) ?? path
+}
+
+/// One dab of paint: a glossy blob with a darker underside.
+func dab(_ context: CGContext, at centre: CGPoint, radius: CGFloat, light: UInt32, base: UInt32, dark: UInt32) {
+    let rect = CGRect(x: centre.x - radius, y: centre.y - radius * 0.86, width: radius * 2, height: radius * 1.72)
+    let path = CGPath(ellipseIn: rect, transform: nil)
+    context.saveGState()
+    shadow(context, x: 4, y: -8, blur: 12, rgb(0x3A2A10, 0.38))
+    context.addPath(path); context.setFillColor(rgb(base)); context.fillPath()
+    context.restoreGState()
+    fill(context, path, [(light, 1, 0), (base, 1, 0.5), (dark, 1, 1)], from: CGPoint(x: rect.minX, y: rect.minY), to: CGPoint(x: rect.maxX, y: rect.maxY))
+    let gloss = CGPath(ellipseIn: CGRect(x: centre.x - radius * 0.55, y: centre.y - radius * 0.62, width: radius * 0.8, height: radius * 0.42), transform: nil)
+    context.addPath(gloss); context.setFillColor(rgb(0xFFFFFF, 0.55)); context.fillPath()
+}
+
+func drawPalette(_ context: CGContext, detail: Bool) {
+    let rim = blob()
+    let hole = CGPath(ellipseIn: thumbHole, transform: nil)
+    let holeRim = CGPath(ellipseIn: thumbHole.insetBy(dx: -20, dy: -20), transform: nil)
+
+    // Rim, with the thumb hole cut through it.
+    context.saveGState()
+    context.addPath(rim); context.addPath(hole); context.clip(using: .evenOdd)
+    fill(context, rim, [(0x5B97FF, 1, 0), (0x2468EC, 1, 0.45), (0x1243B4, 1, 1)], from: CGPoint(x: 150, y: 30), to: CGPoint(x: 600, y: 630))
+    context.restoreGState()
+
+    // Cream surface, sunk a little into the rim.
+    let surface = blob(inset: 46)
+    context.saveGState()
+    context.addPath(surface); context.addPath(holeRim); context.clip(using: .evenOdd)
+    fill(context, surface, [(0xFFFBF0, 1, 0), (0xF6EEDB, 1, 0.6), (0xE9DDC2, 1, 1)], from: CGPoint(x: 200, y: 80), to: CGPoint(x: 560, y: 600))
+    // The rim's shade along the top and left of the surface.
+    context.setLineWidth(22)
+    context.setStrokeColor(rgb(0x0A1E5C, 0.20))
+    context.addPath(surface); context.strokePath()
+    context.restoreGState()
+
+    // A light line along the outer edge of the rim.
+    context.saveGState()
+    context.addPath(rim); context.addPath(hole); context.clip(using: .evenOdd)
+    context.setLineWidth(12)
+    context.setStrokeColor(rgb(0xBFD6FF, 0.75))
+    context.addPath(rim); context.strokePath()
+    context.restoreGState()
+
+    // "My", as on the other icons of the suite.
+    context.addPath(lettering("My", size: 232, centre: 330, baseline: 470))
+    context.setFillColor(rgb(0x0B1E5B)); context.fillPath()
+
+    // Paint along the top of the palette.
+    let dabs: [(CGPoint, UInt32, UInt32, UInt32)] = [
+        (CGPoint(x: 178, y: 226), 0xFF8A8A, 0xE5322E, 0xA8161A),
+        (CGPoint(x: 296, y: 148), 0xFFE08A, 0xFFB01F, 0xC97A08),
+        (CGPoint(x: 432, y: 122), 0x9BE7A4, 0x2FB34C, 0x177A30),
+        (CGPoint(x: 566, y: 158), 0x9CCBFF, 0x2A86F0, 0x1250B8),
+        (CGPoint(x: 660, y: 256), 0xD3A6FF, 0x8E48DC, 0x5B229E),
+    ]
+    for (centre, light, base, dark) in dabs {
+        dab(context, at: centre, radius: detail ? 50 : 58, light: light, base: base, dark: dark)
     }
 }
 
-func drawLettering(_ context: CGContext, in rect: CGRect) {
-    let font = NSFont.systemFont(ofSize: 250, weight: .black)
-    let text = NSAttributedString(string: "My", attributes: [
-        .font: font,
-        .foregroundColor: NSColor(cgColor: navy)!,
-        .kern: -6,
-    ])
-    let size = text.size()
-    NSGraphicsContext.saveGraphicsState()
-    NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: true)
-    text.draw(at: NSPoint(x: rect.midX - size.width / 2 - 6, y: rect.minY + 28))
-    NSGraphicsContext.restoreGraphicsState()
-}
-
-// MARK: Brush
-
-/// The brush lies across the lower right corner with its tip at the end of the stroke, the way the
-/// notepad's page curl breaks that corner.
+/// The brush lies across the right of the palette, its tip in the paint.
 func drawBrush(_ context: CGContext, detail: Bool) {
-    let tip = CGPoint(x: strokeEnd.x, y: strokeEnd.y - 40).applying(faceMap)
-    let angle = atan2(0.78, 0.62)
-    let length: CGFloat = 400
+    let tip = CGPoint(x: 470, y: 268), end = CGPoint(x: 930, y: 700)
+    let length = hypot(end.x - tip.x, end.y - tip.y)
     context.saveGState()
     context.translateBy(x: tip.x, y: tip.y)
-    context.rotate(by: angle)
-    context.scaleBy(x: 1.12, y: 1.12)
-    context.setShadow(offset: CGSize(width: 10, height: 14), blur: 22, color: rgb(0.02, 0.05, 0.20, 0.40))
-    context.beginTransparencyLayer(auxiliaryInfo: nil)
+    context.rotate(by: atan2(end.y - tip.y, end.x - tip.x))
+    let half: CGFloat = 30
 
-    // Handle: glossy navy lacquer, tapering towards a rounded end.
+    // Handle, tapering to a rounded end.
     let handle = CGMutablePath()
-    handle.move(to: CGPoint(x: 160, y: -27))
-    handle.addLine(to: CGPoint(x: length - 18, y: -19))
-    handle.addQuadCurve(to: CGPoint(x: length - 18, y: 19), control: CGPoint(x: length + 10, y: 0))
-    handle.addLine(to: CGPoint(x: 160, y: 27))
+    handle.move(to: CGPoint(x: 200, y: -half))
+    handle.addLine(to: CGPoint(x: length - 40, y: -half * 0.55))
+    handle.addQuadCurve(to: CGPoint(x: length - 40, y: half * 0.55), control: CGPoint(x: length + 4, y: 0))
+    handle.addLine(to: CGPoint(x: 200, y: half))
     handle.closeSubpath()
-    fill(context, handle, [rgb(0.03, 0.07, 0.24), rgb(0.20, 0.32, 0.70), rgb(0.08, 0.16, 0.45), rgb(0.02, 0.05, 0.18)],
-         from: CGPoint(x: 0, y: -27), to: CGPoint(x: 0, y: 27), [0, 0.30, 0.65, 1])
+    context.saveGState()
+    shadow(context, x: 8, y: -14, blur: 16, rgb(0x061340, 0.45))
+    context.addPath(handle); context.setFillColor(rgb(0x1A56D6)); context.fillPath()
+    context.restoreGState()
+    fill(context, handle, [(0x6AA2FF, 1, 0), (0x1F5BDB, 1, 0.45), (0x0C3190, 1, 1)], from: CGPoint(x: 0, y: -half), to: CGPoint(x: 0, y: half))
     if detail {
-        context.saveGState()
-        context.setStrokeColor(rgb(1, 1, 1, 0.45))
-        context.setLineWidth(5)
-        context.setLineCap(.round)
-        context.move(to: CGPoint(x: 180, y: -12))
-        context.addLine(to: CGPoint(x: length - 40, y: -8))
+        context.setStrokeColor(rgb(0xFFFFFF, 0.5)); context.setLineWidth(5); context.setLineCap(.round)
+        context.move(to: CGPoint(x: 230, y: -half * 0.5)); context.addLine(to: CGPoint(x: length - 90, y: -half * 0.3))
         context.strokePath()
+    }
+
+    // Silver ferrule.
+    let ferrule = CGPath(roundedRect: CGRect(x: 104, y: -half - 3, width: 104, height: half * 2 + 6), cornerWidth: 9, cornerHeight: 9, transform: nil)
+    context.saveGState()
+    shadow(context, x: 8, y: -14, blur: 16, rgb(0x061340, 0.4))
+    context.addPath(ferrule); context.setFillColor(rgb(0xB9C0CC)); context.fillPath()
+    context.restoreGState()
+    fill(context, ferrule, [(0xFAFBFD, 1, 0), (0xC4CAD4, 1, 0.4), (0x7B8494, 1, 1)], from: CGPoint(x: 0, y: -half), to: CGPoint(x: 0, y: half))
+    if detail {
+        context.setStrokeColor(rgb(0x6B7483, 0.8)); context.setLineWidth(4)
+        for x in [CGFloat(130), 182] {
+            context.move(to: CGPoint(x: x, y: -half - 2)); context.addLine(to: CGPoint(x: x, y: half + 2))
+        }
+        context.strokePath()
+    }
+
+    // Bristles, loaded with red paint at the tip.
+    let bristles = CGMutablePath()
+    bristles.move(to: CGPoint(x: 108, y: -half + 2))
+    bristles.addCurve(to: CGPoint(x: 0, y: 0), control1: CGPoint(x: 60, y: -half - 4), control2: CGPoint(x: 26, y: -12))
+    bristles.addCurve(to: CGPoint(x: 108, y: half - 2), control1: CGPoint(x: 26, y: 12), control2: CGPoint(x: 60, y: half + 4))
+    bristles.closeSubpath()
+    context.saveGState()
+    shadow(context, x: 6, y: -10, blur: 12, rgb(0x3A2A10, 0.4))
+    context.addPath(bristles); context.setFillColor(rgb(0xD9A866)); context.fillPath()
+    context.restoreGState()
+    fill(context, bristles, [(0xF3D29A, 1, 0), (0xD29A52, 1, 0.6), (0x9A6A2E, 1, 1)], from: CGPoint(x: 0, y: -half), to: CGPoint(x: 0, y: half))
+    context.saveGState()
+    context.addPath(bristles); context.clip()
+    fill(context, CGPath(rect: CGRect(x: -4, y: -half - 6, width: 62, height: half * 2 + 12), transform: nil),
+         [(0xFF7A70, 1, 0), (0xE5322E, 1, 0.5), (0xA8161A, 1, 1)], from: CGPoint(x: 0, y: -half), to: CGPoint(x: 0, y: half))
+    context.restoreGState()
+    context.restoreGState()
+}
+
+func drawIcon(_ context: CGContext, detail: Bool) {
+    // Dark copies stepped along the depth direction fake the extruded edge of the palette.
+    context.beginTransparencyLayer(auxiliaryInfo: nil)
+    for step in stride(from: edgeDepth, through: 1, by: -1) {
+        context.saveGState()
+        context.translateBy(x: CGFloat(step) * 0.55, y: CGFloat(step))
+        context.concatenate(lean)
+        context.addPath(blob()); context.addPath(CGPath(ellipseIn: thumbHole, transform: nil))
+        context.setFillColor(rgb(0x0B2F8A)); context.fillPath(using: .evenOdd)
         context.restoreGState()
     }
-
-    // Ferrule: polished metal like the notepad's rings, with two crimp grooves.
-    let ferrule = rounded(CGRect(x: 84, y: -30, width: 84, height: 60), 8)
-    let metal = [rgb(0.42, 0.44, 0.48), rgb(0.95, 0.96, 0.98), rgb(0.70, 0.72, 0.76), rgb(0.86, 0.87, 0.90), rgb(0.36, 0.38, 0.42)]
-    fill(context, ferrule, metal, from: CGPoint(x: 0, y: -30), to: CGPoint(x: 0, y: 30), [0, 0.28, 0.55, 0.75, 1])
-    if detail {
-        for x in [122.0, 140.0] {
-            let groove = CGRect(x: x, y: -30, width: 5, height: 60)
-            fill(context, CGPath(rect: groove, transform: nil), [rgb(0.30, 0.32, 0.36), rgb(0.62, 0.64, 0.68), rgb(0.28, 0.30, 0.34)],
-                 from: CGPoint(x: 0, y: -30), to: CGPoint(x: 0, y: 30), [0, 0.35, 1])
-        }
-    }
-
-    // Bristles: a full tuft narrowing to a point, dipped in the stroke's red.
-    let tuft = CGMutablePath()
-    tuft.move(to: CGPoint(x: 90, y: -27))
-    tuft.addCurve(to: CGPoint(x: 0, y: 0), control1: CGPoint(x: 52, y: -34), control2: CGPoint(x: 14, y: -14))
-    tuft.addCurve(to: CGPoint(x: 90, y: 27), control1: CGPoint(x: 14, y: 14), control2: CGPoint(x: 52, y: 34))
-    tuft.closeSubpath()
-    fill(context, tuft, [rgb(0.62, 0.45, 0.28), rgb(0.93, 0.80, 0.58), rgb(0.56, 0.40, 0.24)],
-         from: CGPoint(x: 0, y: -30), to: CGPoint(x: 0, y: 30), [0, 0.4, 1])
-    context.saveGState()
-    context.addPath(tuft)
-    context.clip()
-    let paint = CGMutablePath()
-    paint.move(to: CGPoint(x: -4, y: -40))
-    paint.addCurve(to: CGPoint(x: 58, y: 40), control1: CGPoint(x: 62, y: -30), control2: CGPoint(x: 30, y: 10))
-    paint.addLine(to: CGPoint(x: -4, y: 40))
-    paint.closeSubpath()
-    fill(context, paint, [rgb(0.62, 0.06, 0.10), rgb(0.98, 0.28, 0.30), rgb(0.70, 0.08, 0.12)],
-         from: CGPoint(x: 0, y: -30), to: CGPoint(x: 0, y: 30), [0, 0.4, 1])
-    if detail {
-        context.setStrokeColor(rgb(0.30, 0.18, 0.08, 0.30))
-        context.setLineWidth(1.6)
-        for y in stride(from: -20.0, through: 20.0, by: 8.0) {
-            context.move(to: CGPoint(x: 88, y: y))
-            context.addLine(to: CGPoint(x: 10, y: y * 0.25))
-        }
-        context.strokePath()
-    }
-    context.restoreGState()
-
     context.endTransparencyLayer()
+
+    context.saveGState()
+    context.concatenate(lean)
+    drawPalette(context, detail: detail)
+    drawBrush(context, detail: detail)
     context.restoreGState()
 }
 
 // MARK: Output
 
-func render(_ pixels: Int) -> Data {
+func bitmap(_ pixels: Int) -> NSBitmapImageRep {
     let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: pixels, pixelsHigh: pixels,
                                bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
                                colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
     rep.size = NSSize(width: pixels, height: pixels)
+    return rep
+}
+
+/// Renders the artwork with `fit` mapping face space onto a y-down square of `pixels`.
+func render(_ pixels: Int, fit: CGAffineTransform) -> NSBitmapImageRep {
+    let rep = bitmap(pixels)
     let context = NSGraphicsContext(bitmapImageRep: rep)!.cgContext
     context.interpolationQuality = .high
-    // Top-left origin, in 1024-point units.
-    let scale = CGFloat(pixels) / 1024
     context.translateBy(x: 0, y: CGFloat(pixels))
-    context.scaleBy(x: scale, y: -scale)
-    let detail = pixels >= 64
-    drawStand(context)
-    drawBoard(context, detail: detail)
-    drawBrush(context, detail: detail)
-    return rep.representation(using: .png, properties: [:])!
+    context.scaleBy(x: 1, y: -1)
+    context.concatenate(fit)
+    shadowScale = fit.a
+    drawIcon(context, detail: pixels >= 64)
+    return rep
+}
+
+// Measure the opaque bounds once, then scale the artwork edge to edge at every size.
+let probeScale: CGFloat = 0.5, probeOffset: CGFloat = 500
+let probe = render(1024, fit: CGAffineTransform(a: probeScale, b: 0, c: 0, d: probeScale, tx: probeOffset * probeScale, ty: probeOffset * probeScale))
+var minX = 1024, minY = 1024, maxX = -1, maxY = -1
+let data = probe.bitmapData!, rowBytes = probe.bytesPerRow
+for y in 0..<1024 {
+    for x in 0..<1024 where data[y * rowBytes + x * 4 + 3] > 24 {
+        minX = min(minX, x); maxX = max(maxX, x); minY = min(minY, y); maxY = max(maxY, y)
+    }
+}
+guard maxX >= 0 else { fatalError("Icon artwork rendered empty") }
+let bounds = CGRect(x: CGFloat(minX) / probeScale - probeOffset, y: CGFloat(minY) / probeScale - probeOffset,
+                    width: CGFloat(maxX - minX + 1) / probeScale, height: CGFloat(maxY - minY + 1) / probeScale)
+
+func png(_ pixels: Int) -> Data {
+    let side = CGFloat(pixels), margin = side * 0.012
+    let factor = (side - margin * 2) / max(bounds.width, bounds.height)
+    let fit = CGAffineTransform(a: factor, b: 0, c: 0, d: factor,
+                                tx: (side - bounds.width * factor) / 2 - bounds.minX * factor,
+                                ty: (side - bounds.height * factor) / 2 - bounds.minY * factor)
+    return render(pixels, fit: fit).representation(using: .png, properties: [:])!
 }
 
 let output = URL(fileURLWithPath: arguments[1])
@@ -268,8 +270,8 @@ let iconset = FileManager.default.temporaryDirectory
 try FileManager.default.createDirectory(at: iconset, withIntermediateDirectories: true)
 defer { try? FileManager.default.removeItem(at: iconset) }
 for points in [16, 32, 128, 256, 512] {
-    try render(points).write(to: iconset.appendingPathComponent("icon_\(points)x\(points).png"))
-    try render(points * 2).write(to: iconset.appendingPathComponent("icon_\(points)x\(points)@2x.png"))
+    try png(points).write(to: iconset.appendingPathComponent("icon_\(points)x\(points).png"))
+    try png(points * 2).write(to: iconset.appendingPathComponent("icon_\(points)x\(points)@2x.png"))
 }
 let iconutil = Process()
 iconutil.executableURL = URL(fileURLWithPath: "/usr/bin/iconutil")
@@ -278,5 +280,5 @@ try iconutil.run()
 iconutil.waitUntilExit()
 guard iconutil.terminationStatus == 0 else { exit(1) }
 if arguments.count >= 3 {
-    try render(1024).write(to: URL(fileURLWithPath: arguments[2]))
+    try png(1024).write(to: URL(fileURLWithPath: arguments[2]))
 }

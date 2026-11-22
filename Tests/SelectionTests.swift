@@ -367,7 +367,8 @@ func runSelectionTests() {
           && PaintWindow.windowsShortcut(for: key(7, "X", [.control, .shift])) == #selector(MainWindowController.cropImage(_:))
           && PaintWindow.windowsShortcut(for: key(34, "I", [.control, .shift])) == #selector(MainWindowController.invertColors(_:)),
           "Ctrl+W, Ctrl+Shift+X and Ctrl+Shift+I are Resize and Skew, Crop and Invert color")
-    check(PaintWindow.windowsShortcut(for: key(8, "c", .command)) == nil, "Cmd+C is left to the Edit menu")
+    check(PaintWindow.windowsShortcut(for: key(8, "c", .command)) == #selector(MainWindowController.copy(_:)),
+          "Cmd+C copies like Ctrl+C, even when the Edit menu is bound to another key")
     let standard = ["cut:", "copy:", "paste:", "delete:", "selectAll:"].map(NSSelectorFromString)
     check(standard.allSatisfy { !canvas.responds(to: $0) && !window.responds(to: $0) && !NSApp.responds(to: $0) && controller.responds(to: $0) },
           "the standard Edit selectors are answered only by the controller")

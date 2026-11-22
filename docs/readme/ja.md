@@ -6,8 +6,8 @@ Windows 7 の「ペイント」を手本にした、macOS 用のシンプルな�
 
 ## macOS 版のダウンロード
 
-- **[Apple シリコン（M シリーズ）用をダウンロード](https://github.com/leoars/my-paint/releases/download/0.1.0/My-Paint-0.1.0-arm64.pkg)**
-- **[Intel 用をダウンロード](https://github.com/leoars/my-paint/releases/download/0.1.0/My-Paint-0.1.0-x86_64.pkg)**
+- **[Apple シリコン（M シリーズ）用をダウンロード](https://github.com/leoars/my-paint/releases/download/0.1.1/My-Paint-0.1.1-arm64.pkg)**
+- **[Intel 用をダウンロード](https://github.com/leoars/my-paint/releases/download/0.1.1/My-Paint-0.1.1-x86_64.pkg)**
 
 macOS 12 以降に対応しています。 [最新版を見る](https://github.com/leoars/my-paint/releases/latest)
 

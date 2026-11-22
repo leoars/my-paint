@@ -71,8 +71,9 @@ func runSystemTests() {
     ]
     check(shortcuts.allSatisfy { PaintWindow.windowsShortcut(for: key($0.0, $0.1, $0.2)) == $0.3 },
           "Ctrl+R, Ctrl+G, Ctrl+E, Ctrl+P and F11 are Paint's shortcuts")
-    check(PaintWindow.windowsShortcut(for: key(15, "r", .command)) == nil && PaintWindow.windowsShortcut(for: key(103, "\u{F70E}", .command)) == nil,
-          "Cmd+R and Cmd+F11 are left to the menus")
+    check(PaintWindow.windowsShortcut(for: key(15, "r", .command)) == #selector(MainWindowController.toggleRulers(_:))
+          && PaintWindow.windowsShortcut(for: key(103, "\u{F70E}", .command)) == nil,
+          "Cmd+R toggles the rulers like Ctrl+R, and Cmd+F11 is left to the system")
     let viewMenu = controller.makeViewMenu(), fileMenu = controller.makeFileMenu()
     func find(_ menu: NSMenu, _ action: Selector) -> NSMenuItem? { menu.items.first { $0.action == action } }
     let cmd: [(NSMenu, Selector, String, NSEvent.ModifierFlags)] = [

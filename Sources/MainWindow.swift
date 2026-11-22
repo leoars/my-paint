@@ -44,10 +44,15 @@ final class PaintWindow: NSWindow {
             default: break
             }
         }
-        if flags == [.control, .shift] {
+        // The same shortcuts answer to Cmd: a key remapper may turn Ctrl into Cmd before the key gets
+        // here, and the menu bar cannot be relied on for Cmd, since the system's App Shortcuts can
+        // rebind its items (to Ctrl, for one) and then nothing would match the Cmd key.
+        if flags == [.control, .shift] || flags == [.command, .shift] {
             switch event.charactersIgnoringModifiers?.lowercased() {
             case "x": return #selector(MainWindowController.cropImage(_:))
             case "i": return #selector(MainWindowController.invertColors(_:))
+            // Cmd+Shift+Z is the Mac's Redo.
+            case "z" where flags.contains(.command): return #selector(MainWindowController.redoEdit(_:))
             default: return nil
             }
         }
@@ -66,7 +71,7 @@ final class PaintWindow: NSWindow {
         if (flags == .control || flags == .command) && event.keyCode == 122 {
             return #selector(MainWindowController.toggleRibbonMinimized(_:))
         }
-        guard flags == .control else { return nil }
+        guard flags == .control || flags == .command else { return nil }
         // Ctrl+B, Ctrl+I and Ctrl+U format a text box.
         switch event.charactersIgnoringModifiers?.lowercased() {
         case "b": return #selector(MainWindowController.toggleTextBold(_:))
@@ -89,7 +94,8 @@ final class PaintWindow: NSWindow {
         case "c": return #selector(MainWindowController.copy(_:))
         case "x": return #selector(MainWindowController.cut(_:))
         case "v": return #selector(MainWindowController.paste(_:))
-        case "w": return #selector(MainWindowController.showResizeDialog(_:))
+        // Ctrl+W resizes, as in Paint; Cmd+W stays with the system.
+        case "w": return flags == .control ? #selector(MainWindowController.showResizeDialog(_:)) : nil
         case "r": return #selector(MainWindowController.toggleRulers(_:))
         case "g": return #selector(MainWindowController.toggleGridlines(_:))
         case "e": return #selector(MainWindowController.showImageProperties(_:))

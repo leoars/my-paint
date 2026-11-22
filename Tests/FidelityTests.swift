@@ -20,6 +20,29 @@ func runFidelityTests() {
     check(PaintWindow.windowsShortcut(for: key(109, f10, [])) == #selector(MainWindowController.toggleKeyTips(_:))
           && PaintWindow.windowsShortcut(for: key(109, f10, .command)) == nil,
           "F10 alone shows the key tips, as in Windows, and Cmd+F10 is left to the system")
+    // MARK: Cmd answers like Ctrl
+    check(PaintWindow.windowsShortcut(for: key(6, "z", .control)) == #selector(MainWindowController.undoEdit(_:))
+          && PaintWindow.windowsShortcut(for: key(6, "z", .command)) == #selector(MainWindowController.undoEdit(_:)),
+          "Ctrl+Z and Cmd+Z both undo, whatever the menu bar is bound to")
+    check(PaintWindow.windowsShortcut(for: key(16, "y", .command)) == #selector(MainWindowController.redoEdit(_:))
+          && PaintWindow.windowsShortcut(for: key(6, "Z", [.command, .shift])) == #selector(MainWindowController.redoEdit(_:))
+          && PaintWindow.windowsShortcut(for: key(6, "Z", [.control, .shift])) == nil,
+          "Cmd+Y and Cmd+Shift+Z redo; Ctrl+Shift+Z stays unbound")
+    check(PaintWindow.windowsShortcut(for: key(0, "a", .command)) == #selector(MainWindowController.selectAll(_:))
+          && PaintWindow.windowsShortcut(for: key(8, "c", .command)) == #selector(MainWindowController.copy(_:))
+          && PaintWindow.windowsShortcut(for: key(7, "x", .command)) == #selector(MainWindowController.cut(_:))
+          && PaintWindow.windowsShortcut(for: key(9, "v", .command)) == #selector(MainWindowController.paste(_:)),
+          "Cmd+A, C, X and V edit like their Ctrl forms")
+    check(PaintWindow.windowsShortcut(for: key(13, "w", .control)) == #selector(MainWindowController.showResizeDialog(_:))
+          && PaintWindow.windowsShortcut(for: key(13, "w", .command)) == nil
+          && PaintWindow.windowsShortcut(for: key(12, "q", .command)) == nil
+          && PaintWindow.windowsShortcut(for: key(4, "h", .command)) == nil,
+          "Ctrl+W resizes, while Cmd+W, Cmd+Q and Cmd+H are left to the system")
+    canvas.document.invertColors()
+    let afterDraw = canvas.document.bitmap
+    check(canvas.document.canUndo && window.performKeyEquivalent(with: key(6, "z", .command))
+          && canvas.document.bitmap != afterDraw && !canvas.document.canUndo,
+          "Cmd+Z reaching the window undoes the last change")
     var shown: (menu: RibbonMenuView, point: NSPoint, view: NSView)?
     controller.presentMenu = { menu, point, view in shown = (menu, point, view) }
     window.makeFirstResponder(canvas)

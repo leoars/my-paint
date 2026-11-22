@@ -6,8 +6,8 @@ A simple image editor for macOS inspired by Windows 7 Paint. Open a picture, dra
 
 ## Download for macOS
 
-- **[Download for Apple Silicon (M-series)](https://github.com/leoars/my-paint/releases/download/0.1.0/My-Paint-0.1.0-arm64.pkg)**
-- **[Download for Intel](https://github.com/leoars/my-paint/releases/download/0.1.0/My-Paint-0.1.0-x86_64.pkg)**
+- **[Download for Apple Silicon (M-series)](https://github.com/leoars/my-paint/releases/download/0.1.1/My-Paint-0.1.1-arm64.pkg)**
+- **[Download for Intel](https://github.com/leoars/my-paint/releases/download/0.1.1/My-Paint-0.1.1-x86_64.pkg)**
 
 Requires macOS 12 or later. [View the latest release](https://github.com/leoars/my-paint/releases/latest)
 
