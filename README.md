@@ -13,6 +13,8 @@ Um editor de imagens simples para macOS. Abra uma imagem, desenhe com lápis, pi
 
 Requer macOS 12 ou posterior. [Ver a versão mais recente](https://github.com/leoars/my-paint/releases/latest)
 
+Para instalar o My Explorer, o My Notepad e o My Paint de uma vez, use o [instalador da suíte My](https://github.com/leoars/my-suite).
+
 ![Janela do My Paint em português, com a guia Início e a tela em branco.](docs/screenshots/pt-BR-window.png)
 
 ## Por que este projeto existe?

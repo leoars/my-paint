@@ -13,6 +13,8 @@ Ein einfacher Bildeditor für macOS. Öffne ein Bild, zeichne mit Stift, Pinseln
 
 Erfordert macOS 12 oder neuer. [Zur neuesten Version](https://github.com/leoars/my-paint/releases/latest)
 
+Um My Explorer, My Notepad und My Paint auf einmal zu installieren, nutze das [Installationsprogramm der My-Suite](https://github.com/leoars/my-suite/blob/main/docs/readme/en.md).
+
 ![My-Paint-Fenster auf Deutsch mit dem Tab „Start“ und leerer Zeichenfläche.](../screenshots/de-window.png)
 
 ## Warum gibt es dieses Projekt?

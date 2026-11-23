@@ -13,6 +13,8 @@ A simple image editor for macOS. Open a picture, draw with the pencil, brushes, 
 
 Requires macOS 12 or later. [View the latest release](https://github.com/leoars/my-paint/releases/latest)
 
+To install My Explorer, My Notepad and My Paint in one go, use the [My suite installer](https://github.com/leoars/my-suite/blob/main/docs/readme/en.md).
+
 ![The My Paint window in English, with the Home tab and a blank canvas.](../screenshots/en-window.png)
 
 ## Why My Paint?

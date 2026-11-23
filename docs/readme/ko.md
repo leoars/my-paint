@@ -13,6 +13,8 @@ macOS용 간단한 이미지 편집기입니다. 이미지를 열고 연필, 브
 
 macOS 12 이상이 필요합니다. [최신 릴리스 보기](https://github.com/leoars/my-paint/releases/latest)
 
+My Explorer, My Notepad, My Paint를 한 번에 설치하려면 [My 스위트 설치 프로그램](https://github.com/leoars/my-suite/blob/main/docs/readme/en.md)을 사용하세요.
+
 ![한국어 My Paint 윈도우. 홈 탭과 빈 캔버스가 보입니다.](../screenshots/ko-window.png)
 
 ## 이 프로젝트를 만든 이유

@@ -13,6 +13,8 @@ Un éditeur d’images simple pour macOS. Ouvrez une image, dessinez avec le cra
 
 Nécessite macOS 12 ou une version ultérieure. [Voir la dernière version](https://github.com/leoars/my-paint/releases/latest)
 
+Pour installer My Explorer, My Notepad et My Paint en une seule fois, utilisez le [programme d’installation de la suite My](https://github.com/leoars/my-suite/blob/main/docs/readme/en.md).
+
 ![Fenêtre de My Paint en français, avec l’onglet Accueil et la zone de dessin vide.](../screenshots/fr-window.png)
 
 ## Pourquoi ce projet ?

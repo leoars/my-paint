@@ -13,6 +13,8 @@ macOS 用のシンプルな画像エディタです。画像を開き、鉛筆�
 
 macOS 12 以降に対応しています。 [最新版を見る](https://github.com/leoars/my-paint/releases/latest)
 
+My Explorer、My Notepad、My Paint をまとめてインストールするには、[My スイートのインストーラ](https://github.com/leoars/my-suite/blob/main/docs/readme/en.md)を使ってください。
+
 ![日本語の My Paint ウインドウ。「ホーム」タブと白紙のキャンバスが表示されています。](../screenshots/ja-window.png)
 
 ## このプロジェクトについて
