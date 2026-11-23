@@ -2,12 +2,14 @@
 
 [Português (Brasil)](../../README.md) · [English](en.md) · **Español** · [Français](fr.md) · [Deutsch](de.md) · [Italiano](it.md) · [日本語](ja.md) · [한국어](ko.md)
 
-Un editor de imágenes sencillo para macOS inspirado en el Paint de Windows 7. Abre una imagen, dibuja con el lápiz, los pinceles, las formas y el texto, y guarda en PNG, JPEG, BMP o GIF con los atajos que ya conoces.
+**Suite My:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.es.md) · [My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/es.md) · **My Paint**
+
+Un editor de imágenes sencillo para macOS. Abre una imagen, dibuja con el lápiz, los pinceles, las formas y el texto, y guarda en PNG, JPEG, BMP o GIF con los atajos que ya conoces.
 
 ## Descargar para macOS
 
-- **[Descargar para Apple Silicon (serie M)](https://github.com/leoars/my-paint/releases/download/0.1.1/My-Paint-0.1.1-arm64.pkg)**
-- **[Descargar para Intel](https://github.com/leoars/my-paint/releases/download/0.1.1/My-Paint-0.1.1-x86_64.pkg)**
+- **[Descargar para Apple Silicon (serie M)](https://github.com/leoars/my-paint/releases/download/1.0/My-Paint-1.0-arm64.pkg)**
+- **[Descargar para Intel](https://github.com/leoars/my-paint/releases/download/1.0/My-Paint-1.0-x86_64.pkg)**
 
 Requiere macOS 12 o posterior. [Ver la última versión](https://github.com/leoars/my-paint/releases/latest)
 
@@ -15,36 +17,106 @@ Requiere macOS 12 o posterior. [Ver la última versión](https://github.com/leoa
 
 ## ¿Por qué existe este proyecto?
 
-My Paint nace de la misma nostalgia que dio origen a My Notepad. Al pasar de Windows al Mac, echábamos de menos un editor de imágenes que solo pide una ventana, una cinta de herramientas y un lienzo en blanco. El proyecto recupera esa forma de trabajar en Swift y AppKit, sin dependencias externas. La barra de título y la barra de menús son de macOS; de la cinta de opciones hacia abajo, todo sigue el Paint de Windows 7. Los iconos, las texturas y los textos se dibujaron y escribieron desde cero.
+My Paint nace de la misma idea que My Notepad: un editor de imágenes que solo pide una ventana, una cinta de herramientas y un lienzo en blanco. El proyecto ofrece esa forma de trabajar en Swift y AppKit, sin dependencias externas. Los iconos, las texturas y los textos se dibujaron y escribieron desde cero.
 
-## En el día a día
+## Funciones
 
-- **Herramientas:** Lápiz, Borrador, Rellenar con color, Selector de color, Lupa y Texto. El botón izquierdo pinta con Color 1 y el derecho con Color 2.
-- **Pinceles:** Pincel, Pinceles caligráficos 1 y 2, Aerógrafo, Pincel de óleo, Crayón, Marcador, Lápiz natural y Pincel de acuarela, cada uno con sus tamaños.
-- **Formas:** las 23 de la galería, desde líneas y curvas hasta flechas, estrellas, globos, un corazón y un rayo. Elige Contorno y Relleno (color sólido o textura), ajusta con los controladores y haz clic fuera para fijar. Mantén pulsada `Shift` para conservar la proporción o el ángulo.
-- **Selección:** rectangular o de forma libre, con selección transparente, mover, duplicar, cortar, copiar y pegar entre aplicaciones. Recortar, Cambiar tamaño e inclinar, Girar o voltear e Invertir colores se aplican a la selección o a toda la imagen.
-- **Vista:** zoom del 12,5 % al 800 %, reglas, cuadrícula, pantalla completa, miniatura y barra de estado.
-- **Imprimir, Propiedades de la imagen, Editar colores** (con 10 posiciones personalizadas en la paleta), imágenes recientes y **Establecer como fondo de escritorio**.
-- **Tamaño del texto de la interfaz** en cuatro niveles, para pantallas de alta resolución, en la pestaña Vista y en **My Paint → Ajustes…**.
-- Disponible en portugués, inglés, español, francés, alemán, italiano, japonés y coreano.
+### Archivo y formatos
+
+- **Nuevo**, **Abrir…**, **Guardar** y **Guardar como…**, con **Guardar una copia en otro formato**.
+- Abre y guarda PNG, JPEG, BMP, GIF y TIFF. Abre imágenes desde el Finder.
+- **Imágenes recientes** con hasta 9 archivos, que se pueden anclar a la lista.
+- **Propiedades de la imagen**: tamaño, unidades (pulgadas, centímetros o píxeles), color o blanco y negro, fecha y tamaño en disco.
+- **Establecer como fondo de escritorio**: rellenar, mosaico o centrar.
+
+### Herramientas
+
+- **Lápiz**, **Borrador**, **Rellenar con color**, **Selector de color**, **Lupa** y **Texto**.
+- El botón izquierdo pinta con Color 1 y el derecho con Color 2.
+- **Tamaño** define el grosor de cada herramienta.
+
+### Pinceles
+
+- Nueve pinceles: Pincel, Pinceles caligráficos 1 y 2, Aerógrafo, Pincel de óleo, Crayón, Marcador, Lápiz natural y Pincel de acuarela, cada uno con cuatro tamaños.
+
+### Formas
+
+- Las 23 formas de la galería: línea, curva, óvalo, rectángulo, rectángulo redondeado, polígono, triángulos, rombo, pentágono, hexágono, flechas, estrellas de cuatro, cinco y seis puntas, bocadillos, corazón y rayo.
+- **Contorno** y **Relleno** en color sólido o con textura (crayón, marcador, óleo, lápiz natural y acuarela).
+- Ajusta la forma con los controladores antes de fijarla. Mantén pulsada `Shift` para conservar la proporción o el ángulo.
 
 ![Galería de formas abierta con las 23 formas.](../screenshots/shapes.jpg)
 
-### Atajos que conviene conocer
+### Colores
 
-Los atajos con `Ctrl` funcionan como en Windows; los equivalentes con `Cmd`, también.
+- **Color 1** y **Color 2**, con la paleta de 20 colores y 10 posiciones para colores personalizados.
+- **Editar colores**: 48 colores básicos, 16 personalizados y ajuste por matiz, saturación y luminosidad o por rojo, verde y azul.
+- En el modo blanco y negro, la paleta y el dibujo usan solo los dos colores.
+
+### Selección y portapapeles
+
+- **Selección rectangular** y **Selección libre**, **Seleccionar todo**, **Invertir selección** y **Selección transparente**.
+- Mueve, duplica (arrastrando con `Ctrl`), estira con los controladores o desplaza un píxel cada vez con las flechas.
+- **Cortar**, **Copiar** y **Pegar** entre aplicaciones, y **Pegar desde…** para traer un archivo.
+
+### Imagen
+
+- **Recortar** a la selección.
+- **Cambiar tamaño e inclinar** por porcentaje o píxeles, manteniendo o no la relación de aspecto.
+- **Girar** 90° a la derecha o a la izquierda y 180°; **Voltear** vertical u horizontalmente.
+- **Invertir colores**.
+- Se aplican a la selección o a toda la imagen. El lienzo también se puede redimensionar con sus controladores.
+
+### Texto
+
+- Pestaña **Herramientas de texto** con familia y tamaño de fuente, negrita, cursiva, subrayado y tachado.
+- Fondo opaco o transparente.
+- Admite los métodos de entrada del japonés y del coreano.
+
+### Vista
+
+- Zoom del 12,5 % al 800 %, desde el teclado o con el control de la barra de estado.
+- **Reglas**, **Cuadrícula**, **Barra de estado**, **Pantalla completa** y **Miniatura**.
+- **Tamaño del texto de la interfaz** en cuatro niveles, para pantallas de alta resolución, en la pestaña Vista y en **My Paint → Ajustes…**.
+
+### Imprimir
+
+- **Imprimir…**, **Ajustar página…** (ajustar a un número de páginas y centrar) y **Vista previa de impresión**.
+
+### Interfaz e idiomas
+
+- Menús dentro de la ventana, sobre la cinta de opciones, además de la barra de menús de macOS.
+- Cinta de opciones con las pestañas **Inicio** y **Vista**, que se puede minimizar, y barra de acceso rápido con Guardar, Deshacer y Rehacer.
+- Deshacer y rehacer con 50 niveles.
+- Disponible en portugués, inglés, español, francés, alemán, italiano, japonés y coreano.
+
+### Atajos
+
+Los atajos con `Ctrl` funcionan como ya los conoces; los equivalentes con `Cmd`, también.
 
 | Teclas | Acción |
 | --- | --- |
+| `Ctrl+N` · `Ctrl+O` · `Ctrl+S` · `F12` | Nuevo, abrir, guardar y guardar como |
 | `Ctrl+Z` · `Ctrl+Y` | Deshacer y rehacer (50 niveles) |
 | `Ctrl+A` · `Ctrl+C` · `Ctrl+X` · `Ctrl+V` | Seleccionar todo, copiar, cortar y pegar |
 | `Ctrl+W` | Cambiar tamaño e inclinar |
 | `Ctrl+Shift+X` · `Ctrl+Shift+I` | Recortar e invertir colores |
 | `Ctrl++` / `Ctrl+-` | Aumentar o reducir el grosor |
+| `Ctrl+Page Up` / `Ctrl+Page Down` | Acercar o alejar el zoom |
 | `Ctrl+B` · `Ctrl+I` · `Ctrl+U` | Negrita, cursiva y subrayado en el texto |
 | `Ctrl+R` · `Ctrl+G` · `F11` | Reglas, cuadrícula y pantalla completa |
 | `Ctrl+E` · `Ctrl+P` | Propiedades de la imagen e imprimir |
+| `Ctrl+F1` | Minimizar la cinta de opciones |
 | `Shift+F10` | Menú contextual |
+| `Esc` · `Enter` · `Delete` | Cancelar la acción, fijar la forma y eliminar la selección |
+
+## Parte de la suite My
+
+My Paint forma parte de la suite My: tres aplicaciones para macOS sencillas y directas, con los menús y los atajos de siempre.
+
+- **My Paint** (este repositorio): editor de imágenes sencillo.
+- **[My Explorer](https://github.com/leoars/my-explorer/blob/main/README.es.md)**: gestor de archivos con árbol de carpetas, pestañas y barra de comandos. Con My Paint instalado, el menú contextual de My Explorer incorpora **Editar con My Paint** para las imágenes.
+- **[My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/es.md)**: editor de texto sencillo.
 
 ## Compilar e instalar en el Mac
 
@@ -75,4 +147,4 @@ Las herramientas, la cinta de opciones y los cuadros de diálogo están en [Swif
 
 ## Licencia
 
-El código y la documentación originales se distribuyen bajo la [Apache License 2.0](../../LICENSE). Paint, Windows y Microsoft son marcas de Microsoft Corporation; este proyecto no tiene relación con ella. Consulta [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md).
+El código y la documentación originales se distribuyen bajo la [Apache License 2.0](../../LICENSE). Consulta [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md).

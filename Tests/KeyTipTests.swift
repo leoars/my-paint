@@ -190,7 +190,7 @@ func runKeyTipTests() {
     ribbon.selectPage(0)
     check(window.performKeyEquivalent(with: key(122, f1, .control)) && controller.isRibbonMinimized, "Ctrl+F1 minimizes the ribbon")
     let small = RibbonTheme.minimizedRibbonHeight
-    check(ribbon.frame.height == small && controller.scrollView.frame.minY == small, "only the tabs show and the workspace moves up")
+    check(ribbon.frame.height == small && controller.scrollView.frame.minY == MenuStripView.height + small, "only the tabs show and the workspace moves up")
     check(ribbon.tabs.allSatisfy { !$0.isChecked } && ribbon.pages[0].groups[0].window == nil, "no tab shows selected and the groups are gone")
     check(AppSettings.defaults.bool(forKey: AppSettings.ribbonMinimizedKey), "the minimized ribbon is remembered")
     if let menuItem = menuItem {
@@ -201,7 +201,7 @@ func runKeyTipTests() {
     check(reopened.isRibbonMinimized && reopened.ribbon.frame.height == small, "a new window opens with the ribbon minimized")
     reopened.window.close()
     check(window.performKeyEquivalent(with: key(122, f1, .command)) && !controller.isRibbonMinimized
-          && ribbon.frame.height == RibbonTheme.ribbonHeight && controller.scrollView.frame.minY == RibbonTheme.ribbonHeight
+          && ribbon.frame.height == RibbonTheme.ribbonHeight && controller.scrollView.frame.minY == MenuStripView.height + RibbonTheme.ribbonHeight
           && ribbon.tabs[0].isChecked && ribbon.pages[0].groups[0].superview != nil, "Cmd+F1 brings it back")
     check(!AppSettings.defaults.bool(forKey: AppSettings.ribbonMinimizedKey), "and that is remembered too")
 

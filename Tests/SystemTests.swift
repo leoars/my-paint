@@ -102,7 +102,7 @@ func runSystemTests() {
     check(window.performKeyEquivalent(with: key(15, "r", .control)) && controller.showsRulers, "Ctrl+R shows the rulers")
     let thickness = RibbonTheme.rulerThickness
     check(!controller.horizontalRuler.isHidden && !controller.verticalRuler.isHidden && control("view.rulers").isChecked
-          && controller.scrollView.frame.minX == thickness && controller.scrollView.frame.minY == RibbonTheme.ribbonHeight + thickness
+          && controller.scrollView.frame.minX == thickness && controller.scrollView.frame.minY == MenuStripView.height + RibbonTheme.ribbonHeight + thickness
           && controller.horizontalRuler.frame.height == thickness && controller.verticalRuler.frame.width == thickness,
           "the rulers sit along the top and the left of the workspace")
     check(defaults.bool(forKey: AppSettings.rulersKey) && MainWindowController().showsRulers, "the rulers are remembered")

@@ -268,7 +268,7 @@ final class MainWindowController: NSObject, NSWindowDelegate, NSMenuItemValidati
 
         let content = WindowContentView()
         content.onLayout = { [weak self] in self?.layoutContent() }
-        [ribbon, horizontalRuler, verticalRuler, rulerCorner, scrollView, previewScroll, statusBar].forEach { content.addSubview($0) }
+        [menuStrip, ribbon, horizontalRuler, verticalRuler, rulerCorner, scrollView, previewScroll, statusBar].forEach { content.addSubview($0) }
         window.contentView = content
         window.delegate = self
         window.isReleasedWhenClosed = false
@@ -319,16 +319,22 @@ final class MainWindowController: NSObject, NSWindowDelegate, NSMenuItemValidati
         ceil(ribbon.pages[0].groups.map(\.fullWidth).reduce(0, +) + 2 * RibbonTheme.bodyMargin)
     }
 
-    /// Ribbon on top, status bar at the bottom, the workspace in between.
+    /// The menus inside the window, as in the other applications of the suite.
+    let menuStrip = MenuStripView()
+
+    /// Menu strip and ribbon on top, status bar at the bottom, the workspace in between.
     /// Everything but the picture is drawn at the interface factor (View > Interface text size).
     func layoutContent() {
         guard let content = window.contentView, ribbon != nil else { return }
         let bounds = content.bounds
         let scale = RibbonTheme.scale
-        let ribbonHeight = ribbon.preferredHeight * scale
+        let stripHeight = MenuStripView.height * scale
+        menuStrip.setScaledFrame(NSRect(x: 0, y: 0, width: bounds.width, height: stripHeight), scale: scale)
+        // Everything below starts under the strip and the ribbon.
+        let ribbonHeight = stripHeight + ribbon.preferredHeight * scale
         let statusHeight = RibbonTheme.statusBarHeight * scale
         let shownStatus = showsStatusBar ? statusHeight : 0
-        ribbon.setScaledFrame(NSRect(x: 0, y: 0, width: bounds.width, height: ribbonHeight), scale: scale)
+        ribbon.setScaledFrame(NSRect(x: 0, y: stripHeight, width: bounds.width, height: ribbonHeight - stripHeight), scale: scale)
         statusBar.isHidden = !showsStatusBar
         statusBar.setScaledFrame(NSRect(x: 0, y: bounds.height - shownStatus, width: bounds.width, height: statusHeight), scale: scale)
         let workHeight = max(0, bounds.height - ribbonHeight - shownStatus)

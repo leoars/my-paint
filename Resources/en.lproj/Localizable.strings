@@ -349,3 +349,17 @@
 "ribbon.closePreview" = "Close print\npreview";
 "appmenu.pin" = "Pin to this list";
 "appmenu.unpin" = "Unpin from this list";
+"about.version" = "Version %@";
+"about.author" = "Created and maintained by Leonardo Santos";
+"about.license" = "View license";
+"about.notices" = "Third-party notices";
+"about.repository" = "Repository";
+"about.issues" = "Report an issue";
+"about.close" = "Close";
+"about.suite" = "Also in the My suite:";
+"about.description" = "A simple image editor for macOS, with the tools and shortcuts you already know.";
+"menu.window" = "Window";
+"menu.minimize" = "Minimize";
+"menu.zoomWindow" = "Zoom";
+"menu.help" = "Help";
+"menu.helpReadme" = "My Paint Help";

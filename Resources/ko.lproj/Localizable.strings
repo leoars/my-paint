@@ -349,3 +349,17 @@
 "ribbon.closePreview" = "미리 보기\n닫기";
 "appmenu.pin" = "이 목록에 고정";
 "appmenu.unpin" = "이 목록에서 고정 해제";
+"about.version" = "버전 %@";
+"about.author" = "개발 및 유지 관리: Leonardo Santos";
+"about.license" = "라이선스 보기";
+"about.notices" = "제3자 고지";
+"about.repository" = "저장소";
+"about.issues" = "문제 신고";
+"about.close" = "닫기";
+"about.suite" = "My 스위트의 다른 앱:";
+"about.description" = "익숙한 도구와 단축키로 쓰는 macOS용 간단한 이미지 편집기입니다.";
+"menu.window" = "윈도우";
+"menu.minimize" = "최소화";
+"menu.zoomWindow" = "확대/축소";
+"menu.help" = "도움말";
+"menu.helpReadme" = "My Paint 도움말";

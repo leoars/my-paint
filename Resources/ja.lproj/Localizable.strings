@@ -349,3 +349,17 @@
 "ribbon.closePreview" = "プレビューを\n閉じる";
 "appmenu.pin" = "この一覧にピン留め";
 "appmenu.unpin" = "この一覧からピン留めを外す";
+"about.version" = "バージョン %@";
+"about.author" = "開発・メンテナンス：Leonardo Santos";
+"about.license" = "ライセンスを表示";
+"about.notices" = "第三者に関する表記";
+"about.repository" = "リポジトリ";
+"about.issues" = "問題を報告";
+"about.close" = "閉じる";
+"about.suite" = "My スイートのほかのアプリ：";
+"about.description" = "なじみのあるツールとショートカットで使える、macOS 用のシンプルな画像エディタです。";
+"menu.window" = "ウインドウ";
+"menu.minimize" = "しまう";
+"menu.zoomWindow" = "拡大／縮小";
+"menu.help" = "ヘルプ";
+"menu.helpReadme" = "My Paint ヘルプ";

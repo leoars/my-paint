@@ -76,10 +76,6 @@ extension MainWindowController {
         }
     }
 
-    @objc func showAboutPanel(_ sender: Any?) {
-        presentingDialog { NSApp.orderFrontStandardAboutPanel(sender) }
-    }
-
     /// Opens the application menu under the blue button.
     func showApplicationMenu() {
         let button = ribbon.applicationButton

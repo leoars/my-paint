@@ -18,6 +18,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if let main = NSApp.mainMenu {
             for menu in [controller.makeImageMenu(), controller.makeToolsMenu(), controller.makeShapesMenu(), controller.makeTextMenu(), controller.makeColorsMenu()] { add(menu, titled: menu.title, to: main) }
         }
+        // Window and Help close the bar, as in every Mac application and in the rest of the suite.
+        if let main = NSApp.mainMenu {
+            let windowMenu = NSMenu(title: L("menu.window"))
+            windowMenu.addItem(withTitle: L("menu.minimize"), action: #selector(NSWindow.performMiniaturize(_:)), keyEquivalent: "m")
+            windowMenu.addItem(withTitle: L("menu.zoomWindow"), action: #selector(NSWindow.performZoom(_:)), keyEquivalent: "")
+            add(windowMenu, titled: windowMenu.title, to: main)
+            NSApp.windowsMenu = windowMenu
+            let helpMenu = NSMenu(title: L("menu.help"))
+            helpMenu.addItem(withTitle: L("menu.helpReadme"), action: #selector(openHelp(_:)), keyEquivalent: "").target = self
+            helpMenu.addItem(withTitle: L("about.issues"), action: #selector(reportIssue(_:)), keyEquivalent: "").target = self
+            helpMenu.addItem(.separator())
+            helpMenu.addItem(withTitle: L("menu.about"), action: #selector(MainWindowController.showAboutPanel(_:)), keyEquivalent: "")
+            add(helpMenu, titled: helpMenu.title, to: main)
+            NSApp.helpMenu = helpMenu
+        }
+        controller.menuStrip.reload()
         if let url = pendingURL { pendingURL = nil; controller.open(url) }
         controller.window.makeKeyAndOrderFront(nil)
         controller.syncThumbnailPanel()
@@ -79,6 +95,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         add(controller.makeViewMenu(), titled: L("menu.view"), to: main)
 
         return main
+    }
+
+    /// The README of the repository, in the language the application is running in.
+    @objc func openHelp(_ sender: Any?) {
+        let language = Bundle.main.preferredLocalizations.first ?? "en"
+        let page = language == "pt-BR" ? "" : "/blob/main/docs/readme/\(language).md"
+        if let url = URL(string: "https://github.com/leoars/my-paint" + page) { NSWorkspace.shared.open(url) }
+    }
+
+    @objc func reportIssue(_ sender: Any?) {
+        if let url = URL(string: "https://github.com/leoars/my-paint/issues") { NSWorkspace.shared.open(url) }
     }
 
     private func add(_ menu: NSMenu, titled title: String, to main: NSMenu) {

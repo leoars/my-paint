@@ -349,3 +349,17 @@
 "ribbon.closePreview" = "Fechar\nvisualização";
 "appmenu.pin" = "Fixar nesta lista";
 "appmenu.unpin" = "Soltar desta lista";
+"about.version" = "Versão %@";
+"about.author" = "Criado e mantido por Leonardo Santos";
+"about.license" = "Ver licença";
+"about.notices" = "Avisos de terceiros";
+"about.repository" = "Repositório";
+"about.issues" = "Relatar um problema";
+"about.close" = "Fechar";
+"about.suite" = "Também na suíte My:";
+"about.description" = "Editor de imagens simples para macOS, com as ferramentas e os atalhos de sempre.";
+"menu.window" = "Janela";
+"menu.minimize" = "Minimizar";
+"menu.zoomWindow" = "Zoom";
+"menu.help" = "Ajuda";
+"menu.helpReadme" = "Ajuda do My Paint";
