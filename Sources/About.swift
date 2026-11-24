@@ -2,7 +2,7 @@ import AppKit
 
 /// The About window of the suite: name, version, what the application is, who makes it, the
 /// licence, where the code lives and the other applications of the My suite. Same model as
-/// My Notepad's.
+/// My Notepad's and My Calc's.
 private final class AboutPanel: NSPanel {
     override func close() {
         if NSApp.modalWindow === self { NSApp.stopModal() }
@@ -71,7 +71,8 @@ extension MainWindowController {
         header.alignment = .top
         header.spacing = 20
         let suite = NSStackView(views: [text(L("about.suite")), link("My Explorer", github + "/my-explorer"), text("·"),
-                                        link("My Notepad", github + "/My-Notepad")])
+                                        link("My Notepad", github + "/My-Notepad"), text("·"),
+                                        link("My Calc", github + "/my-calc")])
         let legalLinks = NSStackView(views: [link(L("about.license"), "LICENSE"), text("·"),
                                              link(L("about.notices"), "THIRD_PARTY_NOTICES.md")])
         let repo = github + "/my-paint"

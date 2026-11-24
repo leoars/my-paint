@@ -2,18 +2,18 @@
 
 [Português (Brasil)](../../README.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Deutsch](de.md) · [Italiano](it.md) · [日本語](ja.md) · **한국어**
 
-**My 스위트:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.ko.md) · [My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/ko.md) · **My Paint**
+**My 스위트:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.ko.md) · [My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/ko.md) · **My Paint** · [My Calc](https://github.com/leoars/my-calc/blob/main/docs/readme/ko.md)
 
 macOS용 간단한 이미지 편집기입니다. 이미지를 열고 연필, 브러시, 도형, 텍스트로 그린 뒤, 손에 익은 단축키로 PNG, JPEG, BMP, GIF로 저장하세요.
 
 ## macOS용 다운로드
 
-- **[Apple Silicon(M 시리즈)용 다운로드](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-arm64.pkg)**
-- **[Intel용 다운로드](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-x86_64.pkg)**
+- **[Apple Silicon(M 시리즈)용 다운로드](https://github.com/leoars/my-paint/releases/download/1.0.2/My-Paint-1.0.2-arm64.pkg)**
+- **[Intel용 다운로드](https://github.com/leoars/my-paint/releases/download/1.0.2/My-Paint-1.0.2-x86_64.pkg)**
 
 macOS 12 이상이 필요합니다. [최신 릴리스 보기](https://github.com/leoars/my-paint/releases/latest)
 
-My Explorer, My Notepad, My Paint를 한 번에 설치하려면 [My 스위트 설치 프로그램](https://github.com/leoars/my-suite/blob/main/docs/readme/en.md)을 사용하세요.
+My Explorer, My Notepad, My Paint, My Calc를 한 번에 설치하려면 [My 스위트 설치 프로그램](https://github.com/leoars/my-suite/blob/main/docs/readme/ko.md)을 사용하세요.
 
 ![한국어 My Paint 윈도우. 홈 탭과 빈 캔버스가 보입니다.](../screenshots/ko-window.png)
 
@@ -115,11 +115,13 @@ My Paint는 My Notepad와 같은 생각에서 시작했습니다. 윈도우 하�
 
 ## My 스위트의 일부
 
-My Paint는 My 스위트에 속합니다. My 스위트는 익숙한 메뉴와 단축키를 갖춘, 간단하고 직관적인 macOS용 앱 세 가지입니다.
+My Paint는 My 스위트에 속합니다. My 스위트는 익숙한 메뉴와 단축키를 갖춘, 간단하고 직관적인 macOS용 앱 네 가지입니다.
 
 - **My Paint**(이 저장소): 간단한 이미지 편집기.
 - **[My Explorer](https://github.com/leoars/my-explorer/blob/main/README.ko.md)**: 폴더 트리, 탭, 명령 모음을 갖춘 파일 관리자. My Paint가 설치되어 있으면 My Explorer의 컨텍스트 메뉴에 이미지용 **My Paint로 편집**이 추가됩니다.
 - **[My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/ko.md)**: 간단한 텍스트 편집기.
+- **[My Calc](https://github.com/leoars/my-calc/blob/main/docs/readme/ko.md)**: 간단한 계산기.
+- **[My Suite](https://github.com/leoars/my-suite/blob/main/docs/readme/ko.md)**: 네 앱을 한데 모은 설치 프로그램으로, 설치할 앱을 고를 수 있습니다.
 
 ## Mac에서 빌드하고 설치하기
 

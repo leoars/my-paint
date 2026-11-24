@@ -2,18 +2,18 @@
 
 [Português (Brasil)](../../README.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Deutsch](de.md) · [Italiano](it.md) · **日本語** · [한국어](ko.md)
 
-**My スイート:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.ja.md) · [My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/ja.md) · **My Paint**
+**My スイート:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.ja.md) · [My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/ja.md) · **My Paint** · [My Calc](https://github.com/leoars/my-calc/blob/main/docs/readme/ja.md)
 
 macOS 用のシンプルな画像エディタです。画像を開き、鉛筆、ブラシ、図形、テキストで描いて、使い慣れたショートカットで PNG、JPEG、BMP、GIF に保存できます。
 
 ## macOS 版のダウンロード
 
-- **[Apple シリコン（M シリーズ）用をダウンロード](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-arm64.pkg)**
-- **[Intel 用をダウンロード](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-x86_64.pkg)**
+- **[Apple シリコン（M シリーズ）用をダウンロード](https://github.com/leoars/my-paint/releases/download/1.0.2/My-Paint-1.0.2-arm64.pkg)**
+- **[Intel 用をダウンロード](https://github.com/leoars/my-paint/releases/download/1.0.2/My-Paint-1.0.2-x86_64.pkg)**
 
 macOS 12 以降に対応しています。 [最新版を見る](https://github.com/leoars/my-paint/releases/latest)
 
-My Explorer、My Notepad、My Paint をまとめてインストールするには、[My スイートのインストーラ](https://github.com/leoars/my-suite/blob/main/docs/readme/en.md)を使ってください。
+My Explorer、My Notepad、My Paint、My Calc をまとめてインストールするには、[My スイートのインストーラ](https://github.com/leoars/my-suite/blob/main/docs/readme/ja.md)を使ってください。
 
 ![日本語の My Paint ウインドウ。「ホーム」タブと白紙のキャンバスが表示されています。](../screenshots/ja-window.png)
 
@@ -115,11 +115,13 @@ My Paint は、My Notepad と同じ発想から生まれました。ウインド
 
 ## My スイートの一員
 
-My Paint は My スイートのひとつです。My スイートは、使い慣れたメニューとショートカットを備えた、シンプルでわかりやすい macOS 用の 3 つのアプリです。
+My Paint は My スイートのひとつです。My スイートは、使い慣れたメニューとショートカットを備えた、シンプルでわかりやすい macOS 用の 4 つのアプリです。
 
 - **My Paint**（このリポジトリ）：シンプルな画像エディタ。
 - **[My Explorer](https://github.com/leoars/my-explorer/blob/main/README.ja.md)**：フォルダツリー、タブ、コマンドバーを備えたファイルマネージャ。My Paint をインストールすると、My Explorer のコンテキストメニューに画像用の **My Paint で編集** が加わります。
 - **[My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/ja.md)**：シンプルなテキストエディタ。
+- **[My Calc](https://github.com/leoars/my-calc/blob/main/docs/readme/ja.md)**：シンプルな計算機。
+- **[My Suite](https://github.com/leoars/my-suite/blob/main/docs/readme/ja.md)**：4 つのアプリをまとめたインストーラ。インストールするアプリを選べます。
 
 ## Mac でのビルドとインストール
 

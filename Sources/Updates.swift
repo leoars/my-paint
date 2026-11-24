@@ -3,8 +3,8 @@ import AppKit
 // Updates of the copies installed from GitHub. The app looks for a newer installer of its own
 // architecture among the releases, downloads it only when the person agrees, checks that it is
 // signed by the developer and notarized, quits and hands it to the macOS Installer, which asks for
-// the administrator password the folder Applications needs. The same file serves My Notepad and
-// My Paint. The App Store build leaves it out: the store updates that copy.
+// the administrator password the folder Applications needs. The same file serves My Notepad,
+// My Paint and My Calc. The App Store build leaves it out: the store updates that copy.
 
 /// A release as the GitHub API lists it, with only what the updater reads.
 struct UpdateRelease: Decodable {

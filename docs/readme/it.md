@@ -2,18 +2,18 @@
 
 [Português (Brasil)](../../README.md) · [English](en.md) · [Español](es.md) · [Français](fr.md) · [Deutsch](de.md) · **Italiano** · [日本語](ja.md) · [한국어](ko.md)
 
-**Suite My:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.it.md) · [My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/it.md) · **My Paint**
+**Suite My:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.it.md) · [My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/it.md) · **My Paint** · [My Calc](https://github.com/leoars/my-calc/blob/main/docs/readme/it.md)
 
 Un semplice editor di immagini per macOS. Apri un’immagine, disegna con matita, pennelli, forme e testo e salva in PNG, JPEG, BMP o GIF con le scorciatoie che conosci già.
 
 ## Scarica per macOS
 
-- **[Scarica per Apple Silicon (serie M)](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-arm64.pkg)**
-- **[Scarica per Intel](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-x86_64.pkg)**
+- **[Scarica per Apple Silicon (serie M)](https://github.com/leoars/my-paint/releases/download/1.0.2/My-Paint-1.0.2-arm64.pkg)**
+- **[Scarica per Intel](https://github.com/leoars/my-paint/releases/download/1.0.2/My-Paint-1.0.2-x86_64.pkg)**
 
 Richiede macOS 12 o successivo. [Vedi la versione più recente](https://github.com/leoars/my-paint/releases/latest)
 
-Per installare My Explorer, My Notepad e My Paint in una volta sola, usa il [programma di installazione della suite My](https://github.com/leoars/my-suite/blob/main/docs/readme/en.md).
+Per installare My Explorer, My Notepad, My Paint e My Calc in una volta sola, usa il [programma di installazione della suite My](https://github.com/leoars/my-suite/blob/main/docs/readme/it.md).
 
 ![Finestra di My Paint in italiano, con la scheda Home e l’area di disegno vuota.](../screenshots/it-window.png)
 
@@ -115,11 +115,13 @@ Le scorciatoie con `Ctrl` funzionano come le conosci già; anche gli equivalenti
 
 ## Parte della suite My
 
-My Paint fa parte della suite My: tre app per macOS semplici e dirette, con i menu e le scorciatoie di sempre.
+My Paint fa parte della suite My: quattro app per macOS semplici e dirette, con i menu e le scorciatoie di sempre.
 
 - **My Paint** (questo repository): un semplice editor di immagini.
 - **[My Explorer](https://github.com/leoars/my-explorer/blob/main/README.it.md)**: gestore di file con albero delle cartelle, schede e barra dei comandi. Con My Paint installato, il menu contestuale di My Explorer offre **Modifica con My Paint** per le immagini.
 - **[My Notepad](https://github.com/leoars/My-Notepad/blob/main/docs/readme/it.md)**: un semplice editor di testo.
+- **[My Calc](https://github.com/leoars/my-calc/blob/main/docs/readme/it.md)**: una semplice calcolatrice.
+- **[My Suite](https://github.com/leoars/my-suite/blob/main/docs/readme/it.md)**: il programma di installazione che riunisce le quattro app, con la scelta di quali installare.
 
 ## Compilare e installare sul Mac
 

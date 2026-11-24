@@ -2,18 +2,18 @@
 
 **Português (Brasil)** · [English](docs/readme/en.md) · [Español](docs/readme/es.md) · [Français](docs/readme/fr.md) · [Deutsch](docs/readme/de.md) · [Italiano](docs/readme/it.md) · [日本語](docs/readme/ja.md) · [한국어](docs/readme/ko.md)
 
-**Suíte My:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.pt-BR.md) · [My Notepad](https://github.com/leoars/My-Notepad) · **My Paint**
+**Suíte My:** [My Explorer](https://github.com/leoars/my-explorer/blob/main/README.pt-BR.md) · [My Notepad](https://github.com/leoars/My-Notepad) · **My Paint** · [My Calc](https://github.com/leoars/my-calc)
 
 Um editor de imagens simples para macOS. Abra uma imagem, desenhe com lápis, pincéis, formas e texto, e salve em PNG, JPEG, BMP ou GIF com os atalhos que suas mãos já conhecem.
 
 ## Baixar para macOS
 
-- **[Baixar para Apple Silicon (série M)](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-arm64.pkg)**
-- **[Baixar para Intel](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-x86_64.pkg)**
+- **[Baixar para Apple Silicon (série M)](https://github.com/leoars/my-paint/releases/download/1.0.2/My-Paint-1.0.2-arm64.pkg)**
+- **[Baixar para Intel](https://github.com/leoars/my-paint/releases/download/1.0.2/My-Paint-1.0.2-x86_64.pkg)**
 
 Requer macOS 12 ou posterior. [Ver a versão mais recente](https://github.com/leoars/my-paint/releases/latest)
 
-Para instalar o My Explorer, o My Notepad e o My Paint de uma vez, use o [instalador da suíte My](https://github.com/leoars/my-suite).
+Para instalar o My Explorer, o My Notepad, o My Paint e o My Calc de uma vez, use o [instalador da suíte My](https://github.com/leoars/my-suite).
 
 ![Janela do My Paint em português, com a guia Início e a tela em branco.](docs/screenshots/pt-BR-window.png)
 
@@ -115,11 +115,13 @@ Os atalhos com `Ctrl` funcionam como você já conhece; os equivalentes com `Cmd
 
 ## Parte da suíte My
 
-O My Paint faz parte da suíte My: três aplicativos para macOS simples e diretos, com os menus e os atalhos de sempre.
+O My Paint faz parte da suíte My: quatro aplicativos para macOS simples e diretos, com os menus e os atalhos de sempre.
 
 - **My Paint** (este repositório): editor de imagens simples.
 - **[My Explorer](https://github.com/leoars/my-explorer/blob/main/README.pt-BR.md)**: gerenciador de arquivos com árvore de pastas, abas e barra de comandos. Com o My Paint instalado, o menu de contexto do My Explorer ganha **Editar com o My Paint** para as imagens.
 - **[My Notepad](https://github.com/leoars/My-Notepad)**: editor de texto simples.
+- **[My Calc](https://github.com/leoars/my-calc)**: calculadora simples.
+- **[My Suite](https://github.com/leoars/my-suite)**: o instalador que reúne os quatro aplicativos, com a escolha de quais instalar.
 
 ## Compilar e instalar no Mac
 
