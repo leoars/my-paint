@@ -7,12 +7,14 @@ final class MenuStripView: FlippedView {
 
     private var buttons: [MenuStripButton] = []
 
-    /// Rebuilds the titles from the application's menus, all but the first (the application's own).
+    /// Rebuilds the titles from the application's menus. The first, the application's own, carries
+    /// the application's name: it holds the settings, hiding the application and quitting, which
+    /// have no other place in the window.
     func reload() {
         buttons.forEach { $0.removeFromSuperview() }
-        buttons = (NSApp.mainMenu?.items ?? []).dropFirst().compactMap { item in
+        buttons = (NSApp.mainMenu?.items ?? []).enumerated().compactMap { index, item in
             guard let menu = item.submenu, !item.isHidden else { return nil }
-            let button = MenuStripButton(title: item.title, menu: menu)
+            let button = MenuStripButton(title: index == 0 ? Self.applicationName : item.title, menu: menu)
             addSubview(button)
             return button
         }
@@ -21,6 +23,8 @@ final class MenuStripView: FlippedView {
     }
 
     var titles: [String] { buttons.map(\.title) }
+
+    static let applicationName = "My Paint"
 
     private func layoutButtons() {
         var x: CGFloat = 4

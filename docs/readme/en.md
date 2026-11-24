@@ -8,8 +8,8 @@ A simple image editor for macOS. Open a picture, draw with the pencil, brushes, 
 
 ## Download for macOS
 
-- **[Download for Apple Silicon (M-series)](https://github.com/leoars/my-paint/releases/download/1.0/My-Paint-1.0-arm64.pkg)**
-- **[Download for Intel](https://github.com/leoars/my-paint/releases/download/1.0/My-Paint-1.0-x86_64.pkg)**
+- **[Download for Apple Silicon (M-series)](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-arm64.pkg)**
+- **[Download for Intel](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-x86_64.pkg)**
 
 Requires macOS 12 or later. [View the latest release](https://github.com/leoars/my-paint/releases/latest)
 
@@ -91,6 +91,7 @@ My Paint was born from the same idea as My Notepad: an image editor that asks fo
 - A ribbon with the **Home** and **View** tabs, which can be minimized, and a quick access toolbar with Save, Undo and Redo.
 - Undo and redo with 50 levels.
 - Available in Portuguese, English, Spanish, French, German, Italian, Japanese and Korean.
+- **Check for Updates…** in the My Paint menu, and a check when the app opens, at most once a day, which you can turn off in **Settings…**. A new version is downloaded only when you agree, is checked (the developer's signature and Apple's notarization) and opens in the macOS Installer; My Paint opens again when the Installer closes.
 
 ### Keyboard shortcuts
 

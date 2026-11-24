@@ -8,8 +8,8 @@ macOS용 간단한 이미지 편집기입니다. 이미지를 열고 연필, 브
 
 ## macOS용 다운로드
 
-- **[Apple Silicon(M 시리즈)용 다운로드](https://github.com/leoars/my-paint/releases/download/1.0/My-Paint-1.0-arm64.pkg)**
-- **[Intel용 다운로드](https://github.com/leoars/my-paint/releases/download/1.0/My-Paint-1.0-x86_64.pkg)**
+- **[Apple Silicon(M 시리즈)용 다운로드](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-arm64.pkg)**
+- **[Intel용 다운로드](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-x86_64.pkg)**
 
 macOS 12 이상이 필요합니다. [최신 릴리스 보기](https://github.com/leoars/my-paint/releases/latest)
 
@@ -91,6 +91,7 @@ My Paint는 My Notepad와 같은 생각에서 시작했습니다. 윈도우 하�
 - **홈** 탭과 **보기** 탭이 있는 리본(최소화 가능)과 저장, 실행 취소, 다시 실행이 있는 빠른 실행 도구 모음.
 - 실행 취소와 다시 실행은 50단계.
 - 포르투갈어, 영어, 스페인어, 프랑스어, 독일어, 이탈리아어, 일본어, 한국어를 지원합니다.
+- My Paint 메뉴의 **업데이트 확인…** 과 앱을 열 때의 확인(하루 최대 한 번). 앱을 열 때의 확인은 **설정…** 에서 끌 수 있습니다. 새 버전은 동의할 때만 다운로드되고, 개발자 서명과 Apple 공증을 확인한 뒤 macOS 설치 프로그램에서 열립니다. 설치 프로그램을 닫으면 My Paint 앱이 다시 열립니다.
 
 ### 단축키
 

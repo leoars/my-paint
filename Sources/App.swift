@@ -38,7 +38,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         controller.window.makeKeyAndOrderFront(nil)
         controller.syncThumbnailPanel()
         NSApp.activate(ignoringOtherApps: true)
+        updater.startAutomatically()
     }
+
+    /// Updates from the GitHub releases.
+    lazy var updater: PackageUpdater = {
+        let updater = PackageUpdater(appName: "My Paint", repository: "leoars/my-paint", prefix: "My-Paint") { [weak self] in
+            self?.controller?.window
+        }
+        updater.preferences = UpdatePreferences(defaults: AppSettings.defaults)
+        // Settings follows the check while it is open.
+        updater.changed = { [weak self] in self?.controller?.settingsWindow?.sync() }
+        return updater
+    }()
+
+    @objc func checkForUpdates(_ sender: Any?) { updater.checkNow() }
 
     private var pendingURL: URL?
 
@@ -65,6 +79,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         app.addItem(withTitle: L("menu.about"), action: #selector(MainWindowController.showAboutPanel(_:)), keyEquivalent: "")
         app.addItem(.separator())
         app.addItem(withTitle: L("menu.settings"), action: #selector(MainWindowController.openAppSettings(_:)), keyEquivalent: ",")
+        if PackageUpdater.isAvailable {
+            app.addItem(withTitle: L("updates.check"), action: #selector(checkForUpdates(_:)), keyEquivalent: "").target = self
+        }
         app.addItem(.separator())
         app.addItem(withTitle: L("menu.hide"), action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
         let others = app.addItem(withTitle: L("menu.hideOthers"), action: #selector(NSApplication.hideOtherApplications(_:)), keyEquivalent: "h")

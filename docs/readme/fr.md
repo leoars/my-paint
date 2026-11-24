@@ -8,8 +8,8 @@ Un éditeur d’images simple pour macOS. Ouvrez une image, dessinez avec le cra
 
 ## Télécharger pour macOS
 
-- **[Télécharger pour Apple Silicon (série M)](https://github.com/leoars/my-paint/releases/download/1.0/My-Paint-1.0-arm64.pkg)**
-- **[Télécharger pour Intel](https://github.com/leoars/my-paint/releases/download/1.0/My-Paint-1.0-x86_64.pkg)**
+- **[Télécharger pour Apple Silicon (série M)](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-arm64.pkg)**
+- **[Télécharger pour Intel](https://github.com/leoars/my-paint/releases/download/1.0.1/My-Paint-1.0.1-x86_64.pkg)**
 
 Nécessite macOS 12 ou une version ultérieure. [Voir la dernière version](https://github.com/leoars/my-paint/releases/latest)
 
@@ -91,6 +91,7 @@ My Paint est né de la même idée que My Notepad : un éditeur d’images qui n
 - Ruban avec les onglets **Accueil** et **Affichage**, que l’on peut réduire, et barre d’accès rapide avec Enregistrer, Annuler et Rétablir.
 - Annulation et rétablissement sur 50 niveaux.
 - Disponible en portugais, anglais, espagnol, français, allemand, italien, japonais et coréen.
+- **Rechercher les mises à jour…** dans le menu My Paint, et une vérification à l’ouverture, au plus une fois par jour, que vous pouvez désactiver dans **Réglages…**. La nouvelle version n’est téléchargée qu’avec votre accord, elle est vérifiée (signature du développeur et notarisation d’Apple) et s’ouvre dans le programme d’installation de macOS ; My Paint se rouvre à la fin de l’installation.
 
 ### Raccourcis
 

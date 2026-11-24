@@ -4,6 +4,12 @@ import AppKit
 final class SettingsWindow: NSObject {
     let window: NSWindow
     let sizePopup = NSPopUpButton(frame: .zero, pullsDown: false)
+    let updatesButton = NSButton(checkboxWithTitle: L("updates.automatic"), target: nil, action: nil)
+    var updates: UpdatePreferences { UpdatePreferences(defaults: AppSettings.defaults) }
+    let checkNowButton = NSButton(title: L("updates.check_now"), target: nil, action: nil)
+    let updateStatus = NSTextField(wrappingLabelWithString: L("updates.status.idle"))
+    /// The app's updater, for Check now and the status line; none in the tests.
+    var updater: PackageUpdater? { (NSApp.delegate as? AppDelegate)?.updater }
     private weak var controller: MainWindowController?
 
     init(controller: MainWindowController) {
@@ -30,8 +36,36 @@ final class SettingsWindow: NSObject {
         let noteHeight = max(32, ceil(note.cell!.cellSize(forBounds: NSRect(x: 0, y: 0, width: 340, height: 1000)).height))
         note.frame = NSRect(x: 20, y: 52, width: 340, height: noteHeight)
         [label, sizePopup, note].forEach(content.addSubview)
-        let width = max(380, sizePopup.frame.maxX + 20)
-        let height = note.frame.maxY + 8
+        var width = max(380, sizePopup.frame.maxX + 20)
+        var height = note.frame.maxY + 8
+        // Only a copy installed from GitHub updates itself.
+        if PackageUpdater.isAvailable {
+            let heading = NSTextField(labelWithString: L("updates.heading"))
+            heading.font = .boldSystemFont(ofSize: NSFont.systemFontSize)
+            heading.sizeToFit()
+            heading.frame.origin = NSPoint(x: 20, y: height + 10)
+            updatesButton.target = self
+            updatesButton.action = #selector(toggleUpdates(_:))
+            updatesButton.sizeToFit()
+            updatesButton.frame.origin = NSPoint(x: 20, y: heading.frame.maxY + 8)
+            // The option and Check now side by side, the status below, as in My Explorer's Options.
+            checkNowButton.bezelStyle = .rounded
+            checkNowButton.target = self
+            checkNowButton.action = #selector(checkNow(_:))
+            checkNowButton.sizeToFit()
+            checkNowButton.frame.origin = NSPoint(x: updatesButton.frame.maxX + 12,
+                                                  y: updatesButton.frame.midY - checkNowButton.frame.height / 2)
+            updateStatus.font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize)
+            updateStatus.textColor = .secondaryLabelColor
+            // Room for two lines: the longest states take them in some languages.
+            let lineHeight = ceil(updateStatus.font!.boundingRectForFont.height)
+            updateStatus.frame = NSRect(x: 20, y: max(updatesButton.frame.maxY, checkNowButton.frame.maxY) + 6,
+                                        width: 340, height: 2 * lineHeight + 2)
+            [heading, updatesButton, checkNowButton, updateStatus].forEach(content.addSubview)
+            width = max(width, checkNowButton.frame.maxX + 20)
+            updateStatus.frame.size.width = width - 40
+            height = updateStatus.frame.maxY + 14
+        }
         content.frame.size = NSSize(width: width, height: height)
         window.setContentSize(NSSize(width: width, height: height))
         window.contentView = content
@@ -40,7 +74,14 @@ final class SettingsWindow: NSObject {
 
     func sync() {
         sizePopup.selectItem(withTag: controller?.interfaceSize.rawValue ?? InterfaceSize.normal.rawValue)
+        updatesButton.state = updates.automatic ? .on : .off
+        updateStatus.stringValue = L(updater?.status ?? "updates.status.idle")
+        checkNowButton.isEnabled = updater?.canCheckNow ?? false
     }
+
+    @objc func checkNow(_ sender: NSButton) { updater?.checkNow() }
+
+    @objc func toggleUpdates(_ sender: NSButton) { updates.automatic = sender.state == .on }
 }
 
 /// Print, desktop background, properties, recent pictures, settings, and the File and View menus.

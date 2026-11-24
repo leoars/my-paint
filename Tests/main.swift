@@ -132,6 +132,7 @@ runCanvasTests()
 runRecentPinTests()
 runBlackAndWhiteTests()
 runFontListTests()
+runUpdateTests()
 
 AppSettings.defaults.removePersistentDomain(forName: settingsSuite)
 
