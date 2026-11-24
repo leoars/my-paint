@@ -121,6 +121,7 @@ enum UpdateError: Error { case invalid, untrusted, access }
 /// The App Store copy is updated by the store.
 final class PackageUpdater {
   static let isAvailable = false
+  var preferences = UpdatePreferences(defaults: .standard)
   var automatic = false
   let status = "updates.status.idle"
   let canCheckNow = false

@@ -202,6 +202,10 @@ final class MainWindowController: NSObject, NSWindowDelegate, NSMenuItemValidati
     }
     /// Recent pictures of the application menu and File > Open Recent.
     let recentPictures = RecentPictures()
+    /// A recent picture reopened through a security-scoped bookmark, accessed while it is open.
+    var scopedURL: URL? {
+        didSet { if oldValue != scopedURL { oldValue?.stopAccessingSecurityScopedResource() } }
+    }
     /// Page setup shared by Print, Page setup and Print preview.
     lazy var printInfo: NSPrintInfo = MainWindowController.makePrintInfo()
     var printOptions = PrintOptions()
@@ -397,6 +401,7 @@ final class MainWindowController: NSObject, NSWindowDelegate, NSMenuItemValidati
         }
         newDocument.transparentSelection = document.transparentSelection
         document = newDocument
+        if scopedURL != nil && newDocument.url?.standardizedFileURL != scopedURL { scopedURL = nil }
         canvas.document = newDocument
         canvas.scroll(.zero)
         fileSize = MainWindowController.fileSize(of: newDocument.url)

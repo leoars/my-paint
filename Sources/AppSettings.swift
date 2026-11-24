@@ -14,6 +14,7 @@ enum AppSettings {
     static let recentKey = "RecentPictures"
     static let ribbonMinimizedKey = "MinimizeRibbon"
     static let recentPinnedKey = "RecentPicturesPinned"
+    static let recentBookmarksKey = "RecentPicturesBookmarks"
 
     static func bool(_ key: String, default value: Bool) -> Bool {
         defaults.object(forKey: key) == nil ? value : defaults.bool(forKey: key)

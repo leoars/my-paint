@@ -1,0 +1,15 @@
+# Privacidade do My Paint
+
+O My Paint é um editor de imagens para macOS desenvolvido por Leonardo Santos. As imagens são abertas, editadas e salvas no seu Mac, apenas nos arquivos que você escolhe. O aplicativo guarda neste Mac apenas as preferências: réguas, linhas de grade, miniatura, barra de status, tamanho do texto da interface, faixa de opções minimizada, cores personalizadas, a posição da janela e a lista de imagens recentes (com as fixadas), que guarda o local de cada imagem para poder reabri-la. Ao usar **Definir como plano de fundo da área de trabalho**, uma cópia da imagem é gravada na pasta do próprio aplicativo para que o macOS a mostre na mesa. A área de transferência só é lida ou escrita quando você escolhe copiar, recortar ou colar, e a impressão passa pelo sistema de impressão do macOS.
+
+O aplicativo não coleta nem transmite imagens, dados pessoais, identificadores ou dados de uso ao desenvolvedor. Não inclui anúncios, rastreamento ou ferramentas de análise. A cópia instalada pelo GitHub verifica novas versões consultando a lista pública de releases do GitHub, ao abrir (no máximo uma vez por dia, o que pode ser desligado em Ajustes) ou quando você pede; o GitHub recebe o endereço de rede do Mac, como em qualquer acesso a um site, e nenhum conteúdo ou dado pessoal é enviado. A cópia da App Store não faz essa verificação. Se você abrir um link externo ou enviar um relato pelo GitHub, o serviço escolhido receberá as informações que você decidir fornecer.
+
+Para falar sobre privacidade, escreva para [Leonardo Santos](mailto:leoars@gmail.com).
+
+## Privacy in English
+
+My Paint is a macOS image editor developed by Leonardo Santos. Pictures are opened, edited and saved on your Mac, only in the files you choose. The app stores only its preferences on this Mac: rulers, gridlines, thumbnail, status bar, interface text size, minimized ribbon, custom colors, the window position and the list of recent pictures (with the pinned ones), which keeps the location of each picture so it can be opened again. When you use **Set as desktop background**, a copy of the picture is written to the app’s own folder so that macOS can show it on the desktop. The clipboard is read or written only when you choose to copy, cut or paste, and printing goes through the macOS printing system.
+
+The app does not collect or transmit pictures, personal information, identifiers or usage data to the developer. It contains no advertising, tracking or analytics. The copy installed from GitHub checks for new versions by reading GitHub’s public list of releases, when it opens (at most once a day, which you can turn off in Settings) or when you ask; GitHub receives the Mac’s network address, as with any visit to a website, and no content or personal data is sent. The App Store copy does not make this check. If you open an external link or submit a report on GitHub, the service you choose receives the information you decide to share.
+
+For privacy questions, contact [Leonardo Santos](mailto:leoars@gmail.com).

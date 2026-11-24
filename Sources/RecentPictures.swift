@@ -2,7 +2,9 @@ import AppKit
 
 /// The recent pictures, kept in the app's own settings rather than in `NSDocumentController`,
 /// whose list size follows a system setting. Pinned pictures come first, in the order they were
-/// pinned, and stay when new ones arrive; the others follow, most recent first.
+/// pinned, and stay when new ones arrive; the others follow, most recent first. Each picture keeps
+/// a bookmark beside its path, so the App Store copy, in its sandbox, can open it again (as in
+/// My Notepad), and a picture moved or renamed in the Finder is still found.
 final class RecentPictures {
     /// As many as the application menu shows (a conferir com o original).
     static let limit = 9
@@ -10,6 +12,8 @@ final class RecentPictures {
     private(set) var urls: [URL]
     /// The pinned pictures, standardized; always the first `pinnedCount` of `urls`.
     private(set) var pinned: [URL]
+    /// Bookmarks by path, for the pictures listed.
+    private var bookmarks: [String: Data]
 
     init() {
         let paths = AppSettings.defaults.stringArray(forKey: AppSettings.recentKey) ?? []
@@ -20,6 +24,7 @@ final class RecentPictures {
         for url in stored where !unique.contains(url) { unique.append(url) }
         pinned = Array(pins.filter(unique.contains).prefix(RecentPictures.limit))
         urls = pinned + Array(unique.filter { !pins.contains($0) }.prefix(RecentPictures.limit - pinned.count))
+        bookmarks = AppSettings.defaults.dictionary(forKey: AppSettings.recentBookmarksKey) as? [String: Data] ?? [:]
     }
 
     var pinnedCount: Int { pinned.count }
@@ -36,6 +41,7 @@ final class RecentPictures {
         guard pinned.count < RecentPictures.limit else { return save() }
         urls.insert(file, at: pinned.count)
         if urls.count > RecentPictures.limit { urls.removeLast(urls.count - RecentPictures.limit) }
+        if let bookmark = RecentPictures.bookmark(for: file) { bookmarks[file.path] = bookmark }
         save()
     }
 
@@ -74,9 +80,44 @@ final class RecentPictures {
     /// Whether Clear Menu has anything to take away.
     var canClear: Bool { urls.count > pinned.count }
 
+    /// The picture at `index`, found through its bookmark, which follows it when it is moved.
+    /// `scoped` says the sandbox access was opened and must be closed when the picture is let go.
+    func resolve(at index: Int) -> (url: URL, scoped: Bool)? {
+        guard urls.indices.contains(index) else { return nil }
+        let listed = urls[index]
+        guard let bookmark = bookmarks[listed.path] else { return (listed, false) }
+        var stale = false
+        var found = listed
+        var scoped = false
+        if let url = try? URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, bookmarkDataIsStale: &stale) {
+            found = url.standardizedFileURL
+            scoped = url.startAccessingSecurityScopedResource()
+        } else if let url = try? URL(resolvingBookmarkData: bookmark, bookmarkDataIsStale: &stale) {
+            found = url.standardizedFileURL
+        }
+        if found != listed || stale {
+            // Moved or renamed: the list takes the new place, keeping the pin.
+            if !urls.contains(found) || found == listed {
+                urls[index] = found
+                if let pin = pinned.firstIndex(of: listed) { pinned[pin] = found }
+            }
+            bookmarks[found.path] = stale ? (RecentPictures.bookmark(for: found) ?? bookmark) : bookmark
+            save()
+        }
+        return (found, scoped)
+    }
+
+    static func bookmark(for url: URL) -> Data? {
+        (try? url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil))
+            ?? (try? url.bookmarkData())
+    }
+
     private func save() {
         AppSettings.defaults.set(urls.map(\.path), forKey: AppSettings.recentKey)
         AppSettings.defaults.set(pinned.map(\.path), forKey: AppSettings.recentPinnedKey)
+        let listed = Set(urls.map(\.path))
+        bookmarks = bookmarks.filter { listed.contains($0.key) }
+        AppSettings.defaults.set(bookmarks, forKey: AppSettings.recentBookmarksKey)
     }
 }
 
@@ -89,10 +130,12 @@ extension MainWindowController {
 
     /// Opens the recent picture at the sender's tag, after asking about unsaved changes.
     @objc func openRecentPicture(_ sender: Any?) {
-        let urls = recentPictures.urls
-        let index = senderTag(sender)
-        guard urls.indices.contains(index) else { return }
-        open(urls[index])
+        guard let (url, scoped) = recentPictures.resolve(at: senderTag(sender)) else { return }
+        open(url)
+        // The access stays open while the picture is in the window, so Save can write it back.
+        if scoped {
+            if document.url?.standardizedFileURL == url { scopedURL = url } else { url.stopAccessingSecurityScopedResource() }
+        }
     }
 
     @objc func clearRecentPictures(_ sender: Any?) { recentPictures.clear() }

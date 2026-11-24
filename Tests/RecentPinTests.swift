@@ -154,8 +154,26 @@ func runRecentPinTests() {
     }
     let up = ink(true), lying = ink(false)
     check(up.tall > up.wide && lying.wide > lying.tall && up.wide > 4 && lying.tall > 4, "the pin stands when pinned and lies when free")
+
+    // Bookmarks: what the App Store copy needs to open a recent picture again in its sandbox,
+    // and what finds a picture moved in the Finder.
     recent.urls.forEach { recent.setPinned($0, false) }
     recent.clear()
+    recent.add(pictures[5])
+    recent.setPinned(pictures[5], true)
+    let bookmarks = AppSettings.defaults.dictionary(forKey: AppSettings.recentBookmarksKey) as? [String: Data] ?? [:]
+    check(bookmarks[pictures[5].path] != nil && bookmarks.count == 1, "each recent picture keeps a bookmark")
+    let moved = folder.appendingPathComponent("moved.png").standardizedFileURL
+    try? FileManager.default.moveItem(at: pictures[5], to: moved)
+    controller.document.isDirty = false
+    controller.openRecentPicture(menuItem(#selector(MainWindowController.openRecentPicture(_:)), tag: 0))
+    check(controller.document.url?.standardizedFileURL.lastPathComponent == "moved.png" && recent.urls == [moved]
+          && recent.isPinned(moved), "a moved picture is found through its bookmark and keeps its pin")
+    check(RecentPictures().urls == [moved], "the new place is remembered")
+    recent.setPinned(moved, false)
+    recent.clear()
+    check((AppSettings.defaults.dictionary(forKey: AppSettings.recentBookmarksKey) ?? [:]).isEmpty,
+          "the bookmarks leave with their pictures")
 }
 
 private func menuItem(_ action: Selector, tag: Int) -> NSMenuItem {
